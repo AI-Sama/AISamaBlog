@@ -1,0 +1,8 @@
+server:
+  port: 8070
+spring:
+  datasource:
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/aisama_blog?useUnicode=true&zeroDateTimeBehavior=convertToNull&useAffectedRows=true
