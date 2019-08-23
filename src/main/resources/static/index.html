@@ -40,6 +40,26 @@
                 <i class="el-icon-view"></i>&nbsp;{{title_msg.lookNum}}&nbsp;
                 <i class="el-icon-date"></i>&nbsp;{{title_msg.createDate}}
             </el-card>
+            <el-card class="box-card top_margin" v-for="title_msg in title_msg">
+                <div style="width: 100%;height: 110px">
+                    <div style="width: 35%;height: 110px;overflow: hidden;float: left">
+                        <img class="title_img" src="/img/1.jpg" style="width: 100%;height: 100%">
+                    </div>
+                    <div style="width: 63%;height:110px;float: right;">
+                        <h3 style="height: 30px;text-overflow: ellipsis;white-space:nowrap;overflow: hidden">
+                            <el-tag effect="dark" size="small">标签一</el-tag>
+                            标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题
+                        </h3>
+                        <div style="height: 80px;text-overflow: ellipsis;white-space:nowrap;overflow: hidden">
+                            123423423
+                        </div>
+                    </div>
+                </div>
+                <hr style="margin-top: 10px;margin-bottom:10px;border: 0.5px solid  rgba(0, 0, 0, .12)">
+                <i class="el-icon-user-solid"></i>&nbsp;{{title_msg.userName}}&nbsp;
+                <i class="el-icon-view"></i>&nbsp;{{title_msg.lookNum}}&nbsp;
+                <i class="el-icon-date"></i>&nbsp;{{title_msg.createDate}}
+            </el-card>
         </div>
     </div>
     <div style="width: 100%;height: 70px;text-align: center;margin-top: 30px">
