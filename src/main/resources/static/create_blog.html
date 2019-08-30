@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script type="text/javascript" src="/js/wangEditor.min.js"></script>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+    <div class="index_head">
+        <!--<div style="float: left;margin:13px 0px 10px 40px;border: 3px solid dimgray;width: 55px;height:55px;border-radius: 50%;overflow: hidden;" >-->
+        <!--<img width="55px" src="/img/gaomu.jpg"/>-->
+        <!--</div>-->
+        <div  style="float: left;margin: 10px 20px">
+            <img  height="60px" src="/img/aisama.png"/>
+        </div>
+        <i class="el-icon-s-home"></i>&nbsp;首页&nbsp;&nbsp;
+        <i class="el-icon-share"></i>&nbsp;友链
+        <div style="float: right;width: 400px;height: 60px;margin-right: 500px">
+            <el-input placeholder="请输入搜索内容...." v-model="input">
+                <el-button slot="append" icon="el-icon-search"></el-button>
+            </el-input>
+        </div>
+    </div>
+    <div class="create_blog_body">
+        <div class="create_blog_title">
+            <el-input placeholder="请输入标题" v-model="input" maxlength="20"
+                      show-word-limit>
+            </el-input>
+        </div>
+        <div class="create_blog_label">
+            <el-input placeholder="请输入标签" v-model="input2" maxlength="10"
+                      show-word-limit>
+            </el-input>
+        </div>
+        <div id="editor_title"></div>
+        <div id="editor_body"> </div>
+        <div class="create_button">
+        <el-button type="primary"><i class="el-icon-check"></i>&nbsp;创建</el-button>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            input: "",
+            input2: ""
+        }
+    })
+    var E = window.wangEditor
+    var editor = new E('#editor_title', '#editor_body')
+    editor.customConfig.zIndex = 10
+    // 或者 var editor = new E( document.getElementById('editor') )
+    editor.create()
+</script>
+<style>
+    .create_blog_body {
+        width: 50%;
+        margin: auto;
+        margin-top: 100px;
+    }
+
+    .create_blog_title {
+        margin-bottom: 20px;
+    }
+
+    .create_blog_label {
+        margin-bottom: 20px;
+    }
+    .create_button{
+        width: 100%;
+        text-align: center;
+        margin-top: 15px;
+    }
+    #editor_title {
+        border: 1px solid #ccc;
+    }
+    #editor_body {
+        border: 1px solid #ccc;
+        height: 700px;
+    }
+    .index_head {
+        line-height: 80px;
+        background-color: white;
+        box-shadow: 0 10px 10px rgba(0, 0, 0, .12);
+        width: 100%;
+        height: 80px;
+        position: fixed;
+        top: 0px;
+        z-index: 100;
+    }
+</style>
+</html>
