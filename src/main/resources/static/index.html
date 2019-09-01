@@ -60,10 +60,22 @@
                 </div>
             </el-card>
             <el-card class="fenleiCard top_margin" >
-                分类
-            </el-card>
-            <el-card  class="fenleiCard top_margin">
-                分类
+                <i class="el-icon-menu"></i>&nbsp; 分类
+                <hr style="margin-top: 10px;margin-bottom:10px;border: 0.5px solid  rgba(0, 0, 0, .12)">
+                <el-tag style="border-color:#cfdadd" effect="dark" color="#cfdadd">
+                最后
+                </el-tag>
+                <el-tag style="border-color:#cfdadd" effect="dark" color="#cfdadd">
+                最后
+                </el-tag>
+                <el-tag style="border-color:#cfdadd" effect="dark" color="#cfdadd">
+                   最后更
+                </el-tag>
+                <el-tag style="border-color:#cfdadd" effect="dark" color="#cfdadd">
+                    最后更
+                </el-tag> <el-tag style="border-color:#cfdadd" effect="dark" color="#cfdadd">
+                最后更
+            </el-tag>
             </el-card>
         </div>
         <div class="index_body">
@@ -118,6 +130,10 @@
 </script>
 </body>
 <style>
+    * {
+        padding: 0px;
+        margin: 0px;
+    }
     .el-carousel__item h3 {
         color: #475669;
         font-size: 14px;
@@ -126,7 +142,6 @@
         margin: 0;
     }
     ul li{
-        margin-top: 10px;
         list-style: none;
     }
     .el-carousel__item:nth-child(2n) {
@@ -135,11 +150,6 @@
 
     .el-carousel__item:nth-child(2n+1) {
         background-color: #d3dce6;
-    }
-
-    * {
-        padding: 0px;
-        margin: 0px;
     }
     #app{
         background-color: rgb(243,243,243);
@@ -151,7 +161,6 @@
         cursor: pointer;
         transition: all 1s;
     }
-
     .box-card:hover .changeColor{
         color: lightblue;
     }
@@ -169,7 +178,6 @@
         height: 180px;
         width: 100%;
     }
-
     .top_margin:not(:first-child) {
         margin-top: 20px;
     }
@@ -180,6 +188,9 @@
     .fenleiCard:hover {
         color: lightblue;
         box-shadow: -3px 6px 15px rgba(0, 0, 0, .20), 0px 6px 15px rgba(0, 0, 0, .04);
+    }
+    .fenleiCard span{
+        margin-top: 10px;
     }
     .index_center_body {
         overflow: hidden;
