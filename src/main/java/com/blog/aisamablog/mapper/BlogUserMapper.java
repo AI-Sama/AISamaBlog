@@ -3,6 +3,8 @@ package com.blog.aisamablog.mapper;
 import com.blog.aisamablog.model.BlogUser;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface BlogUserMapper {
     int deleteByPrimaryKey(Integer id);
@@ -16,4 +18,6 @@ public interface BlogUserMapper {
     int updateByPrimaryKeySelective(BlogUser record);
 
     int updateByPrimaryKey(BlogUser record);
+
+    List<BlogUser> selectBlogUserList();
 }

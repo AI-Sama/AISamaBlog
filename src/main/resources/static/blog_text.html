@@ -1,16 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="height: 100%;">
 <head>
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
-    <!-- 引入样式 -->
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
-    <!-- 引入组件库 -->
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
     <script type="text/javascript" src="/js/wangEditor.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-<body>
+<body style="height: 100%;">
 <div id="app">
     <div class="index_head">
         <!--<div style="float: left;margin:13px 0px 10px 40px;border: 3px solid dimgray;width: 55px;height:55px;border-radius: 50%;overflow: hidden;" >-->
@@ -22,7 +21,7 @@
         <i class="el-icon-s-home"></i>&nbsp;首页&nbsp;&nbsp;
         <i class="el-icon-share"></i>&nbsp;友链
         <div style="float: right;width: 400px;height: 60px;margin-right: 500px">
-            <el-input placeholder="请输入搜索内容...." v-model="input">
+            <el-input placeholder="请输入搜索内容...." v-model="search">
                 <el-button slot="append" icon="el-icon-search"></el-button>
             </el-input>
         </div>
@@ -41,10 +40,9 @@
                 <i class="el-icon-view"></i>&nbsp;{{lookNum}}&nbsp;
                 <i class="el-icon-date"></i>&nbsp;{{createDate}}
             </div>
-            <div>
-                <p>
-                    文字·内容
-                </p>
+            <div id="editor_body" >
+                <div v-html="blog_text" contenteditable="false">
+                </div>
             </div>
         </el-card>
     </div>
@@ -52,18 +50,46 @@
 </body>
 
 <script>
+    var E = window.wangEditor;
+    var editor = new E('','#editor_body');
+    editor.customConfig.zIndex = 10;
+    editor.create()
     new Vue({
         el: '#app',
         data: {
-            input:'',
-            title:"这是一个标题",
-            userName:"AI",
-            lookNum:"666",
-            createDate:"2019-08-01"
+            search:'',
+            blogId:'',
+            title:'',
+            userName:'AI',
+            lookNum:'',
+            createDate:'',
+            blog_text:''
+        },
+        created:function(){
+            var href=window.location.href;
+            this.blogId=href.split("?")[1].split("=")[1];
+            this.initBlogText();
         },
         methods:{
             goBack:function () {
                 window.history.back();
+            },
+            initBlogText:function () {
+                axios.get("/BlogContentController/selectBlogById",{
+                    params:{
+                        id:this.blogId
+                    }
+                }) .then((res)=>{
+                    var resultdata=res.data.resultData;
+                    console.log(resultdata)
+                    this.title=resultdata.blogTitle;
+                    this.lookNum=resultdata.blogLookAmount;
+                    this.createDate=resultdata.gmtCreate;
+                    this.blog_text=resultdata.blogText;
+                })
+                .catch(()=> {
+                    alert("未知错误")
+                });
             }
         }
     })
@@ -92,6 +118,12 @@
     .card_head{
         text-align: center;
         height: 60px;
+    }
+    .w-e-text{
+        overflow-y: hidden;
+    }
+    html{
+        background-color: rgb(243, 243, 243);
     }
 </style>
 </html>

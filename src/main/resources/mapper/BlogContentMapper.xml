@@ -1,134 +1,132 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.blog.aisamablog.mapper.BlogContentMapper">
-  <resultMap id="BaseResultMap" type="com.blog.aisamablog.model.BlogContent">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
-    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
-    <result column="blog_title" jdbcType="VARCHAR" property="blogTitle" />
-    <result column="blog_label" jdbcType="VARCHAR" property="blogLabel" />
-    <result column="blog_look_amount" jdbcType="INTEGER" property="blogLookAmount" />
-    <result column="blog_like_amount" jdbcType="INTEGER" property="blogLikeAmount" />
-  </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.blog.aisamablog.model.BlogContent">
-    <result column="blog_text" jdbcType="LONGVARCHAR" property="blogText" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    id, gmt_create, gmt_modified, blog_title, blog_label, blog_look_amount, blog_like_amount
+    <resultMap id="BaseResultMap" type="com.blog.aisamablog.model.BlogContent">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate"/>
+        <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified"/>
+        <result column="blog_title" jdbcType="VARCHAR" property="blogTitle"/>
+        <result column="blog_label" jdbcType="VARCHAR" property="blogLabel"/>
+        <result column="blog_bewrite" jdbcType="VARCHAR" property="blogBeWrite"/>
+        <result column="blog_look_amount" jdbcType="INTEGER" property="blogLookAmount"/>
+        <result column="blog_like_amount" jdbcType="INTEGER" property="blogLikeAmount"/>
+    </resultMap>
+    <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.blog.aisamablog.model.BlogContent">
+        <result column="blog_text" jdbcType="LONGVARCHAR" property="blogText"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, gmt_create, gmt_modified, blog_title, blog_label, blog_look_amount, blog_like_amount,blog_bewrite
   </sql>
-  <sql id="Blob_Column_List">
+    <sql id="Blob_Column_List">
     blog_text
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
-    select 
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from blog_content
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <select id="selectBlogContentList" resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        from blog_content
+        order by gmt_create desc
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from blog_content
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from blog_content
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.blog.aisamablog.model.BlogContent">
-    insert into blog_content (id, gmt_create, gmt_modified, 
-      blog_title, blog_label, blog_look_amount, 
-      blog_like_amount, blog_text)
-    values (#{id,jdbcType=INTEGER}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, 
-      #{blogTitle,jdbcType=VARCHAR}, #{blogLabel,jdbcType=VARCHAR}, #{blogLookAmount,jdbcType=INTEGER}, 
-      #{blogLikeAmount,jdbcType=INTEGER}, #{blogText,jdbcType=LONGVARCHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="com.blog.aisamablog.model.BlogContent">
-    insert into blog_content
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="gmtCreate != null">
-        gmt_create,
-      </if>
-      <if test="gmtModified != null">
-        gmt_modified,
-      </if>
-      <if test="blogTitle != null">
-        blog_title,
-      </if>
-      <if test="blogLabel != null">
-        blog_label,
-      </if>
-      <if test="blogLookAmount != null">
-        blog_look_amount,
-      </if>
-      <if test="blogLikeAmount != null">
-        blog_like_amount,
-      </if>
-      <if test="blogText != null">
-        blog_text,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="gmtCreate != null">
-        #{gmtCreate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="gmtModified != null">
-        #{gmtModified,jdbcType=TIMESTAMP},
-      </if>
-      <if test="blogTitle != null">
-        #{blogTitle,jdbcType=VARCHAR},
-      </if>
-      <if test="blogLabel != null">
-        #{blogLabel,jdbcType=VARCHAR},
-      </if>
-      <if test="blogLookAmount != null">
-        #{blogLookAmount,jdbcType=INTEGER},
-      </if>
-      <if test="blogLikeAmount != null">
-        #{blogLikeAmount,jdbcType=INTEGER},
-      </if>
-      <if test="blogText != null">
-        #{blogText,jdbcType=LONGVARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.blog.aisamablog.model.BlogContent">
-    update blog_content
-    <set>
-      <if test="gmtCreate != null">
-        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="gmtModified != null">
-        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
-      </if>
-      <if test="blogTitle != null">
-        blog_title = #{blogTitle,jdbcType=VARCHAR},
-      </if>
-      <if test="blogLabel != null">
-        blog_label = #{blogLabel,jdbcType=VARCHAR},
-      </if>
-      <if test="blogLookAmount != null">
-        blog_look_amount = #{blogLookAmount,jdbcType=INTEGER},
-      </if>
-      <if test="blogLikeAmount != null">
-        blog_like_amount = #{blogLikeAmount,jdbcType=INTEGER},
-      </if>
-      <if test="blogText != null">
-        blog_text = #{blogText,jdbcType=LONGVARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.blog.aisamablog.model.BlogContent">
-    update blog_content
-    set gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
-      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
-      blog_title = #{blogTitle,jdbcType=VARCHAR},
-      blog_label = #{blogLabel,jdbcType=VARCHAR},
-      blog_look_amount = #{blogLookAmount,jdbcType=INTEGER},
-      blog_like_amount = #{blogLikeAmount,jdbcType=INTEGER}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+    <insert id="insertSelective" parameterType="com.blog.aisamablog.model.BlogContent">
+        insert into blog_content
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create,
+            </if>
+            <if test="gmtModified != null">
+                gmt_modified,
+            </if>
+            <if test="blogTitle != null">
+                blog_title,
+            </if>
+            <if test="blogLabel != null">
+                blog_label,
+            </if>
+            <if test="blogLookAmount != null">
+                blog_look_amount,
+            </if>
+            <if test="blogLikeAmount != null">
+                blog_like_amount,
+            </if>
+            <if test="blogText != null">
+                blog_text,
+            </if>
+            <if test="blogBeWrite != null">
+                blog_bewrite,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="gmtCreate != null">
+                #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModified != null">
+                #{gmtModified,jdbcType=TIMESTAMP},
+            </if>
+            <if test="blogTitle != null">
+                #{blogTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="blogLabel != null">
+                #{blogLabel,jdbcType=VARCHAR},
+            </if>
+            <if test="blogLookAmount != null">
+                #{blogLookAmount,jdbcType=INTEGER},
+            </if>
+            <if test="blogLikeAmount != null">
+                #{blogLikeAmount,jdbcType=INTEGER},
+            </if>
+            <if test="blogText != null">
+                #{blogText,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="blogBeWrite != null">
+                #{blogBeWrite,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.blog.aisamablog.model.BlogContent">
+        update blog_content
+        <set>
+            <if test="gmtCreate != null">
+                gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModified != null">
+                gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+            </if>
+            <if test="blogTitle != null">
+                blog_title = #{blogTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="blogLabel != null">
+                blog_label = #{blogLabel,jdbcType=VARCHAR},
+            </if>
+            <if test="blogLookAmount != null">
+                blog_look_amount = #{blogLookAmount,jdbcType=INTEGER},
+            </if>
+            <if test="blogLikeAmount != null">
+                blog_like_amount = #{blogLikeAmount,jdbcType=INTEGER},
+            </if>
+            <if test="blogText != null">
+                blog_text = #{blogText,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="blogBeWrite != null">
+                blog_bewrite = #{blogBeWrite,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
 </mapper>

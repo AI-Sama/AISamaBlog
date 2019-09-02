@@ -2,11 +2,10 @@
 <html lang="en">
 <head>
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
-    <!-- 引入样式 -->
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
-    <!-- 引入组件库 -->
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
     <script type="text/javascript" src="/js/wangEditor.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
@@ -22,26 +21,26 @@
         <i class="el-icon-s-home"></i>&nbsp;首页&nbsp;&nbsp;
         <i class="el-icon-share"></i>&nbsp;友链
         <div style="float: right;width: 400px;height: 60px;margin-right: 500px">
-            <el-input placeholder="请输入搜索内容...." v-model="input">
+            <el-input placeholder="请输入搜索内容...." v-model="search">
                 <el-button slot="append" icon="el-icon-search"></el-button>
             </el-input>
         </div>
     </div>
     <div class="create_blog_body">
         <div class="create_blog_title">
-            <el-input placeholder="请输入标题" v-model="input" maxlength="20"
+            <el-input placeholder="请输入标题" v-model="blogTitle" maxlength="20"
                       show-word-limit>
             </el-input>
         </div>
         <div class="create_blog_label">
-            <el-input placeholder="请输入标签" v-model="input2" maxlength="10"
+            <el-input placeholder="请输入标签" v-model="blogLabel" maxlength="10"
                       show-word-limit>
             </el-input>
         </div>
         <div id="editor_title"></div>
         <div id="editor_body"> </div>
         <div class="create_button">
-        <el-button type="primary"><i class="el-icon-check"></i>&nbsp;创建</el-button>
+        <el-button @click="createBlog" type="primary"><i class="el-icon-check"></i>&nbsp;创建</el-button>
         </div>
     </div>
 </div>
@@ -50,8 +49,28 @@
     new Vue({
         el: '#app',
         data: {
-            input: "",
-            input2: ""
+            search:"",
+            blogTitle: "",
+            blogLabel: ""
+        },
+        methods: {
+            createBlog:function () {
+                var bewrite=editor.txt.text();
+                axios.post("/BlogContentController/insertBlog",{
+                    blogTitle:this.blogTitle,
+                    blogLabel:this.blogLabel,
+                    blogText:editor.txt.html(),
+                    blogBeWrite:bewrite.slice(0,100)
+                   }) .then((res)=>{
+                     alert(res.data.resultMsg)
+                    })
+                    .catch(()=> {
+                        alert("未知错误")
+                    });
+                this.blogTitle="";
+                this.blogLabel="";
+                editor.txt.html("");
+            }
         }
     })
     var E = window.wangEditor

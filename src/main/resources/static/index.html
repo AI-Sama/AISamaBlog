@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <script src="https://cdn.jsdelivr.net/npm/vue"></script>
-<!-- 引入样式 -->
 <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
-<!-- 引入组件库 -->
 <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -13,15 +12,15 @@
 <div id="app">
     <div class="index_head">
         <!--<div style="float: left;margin:13px 0px 10px 40px;border: 3px solid dimgray;width: 55px;height:55px;border-radius: 50%;overflow: hidden;" >-->
-         <!--<img width="55px" src="/img/gaomu.jpg"/>-->
+        <!--<img width="55px" src="/img/gaomu.jpg"/>-->
         <!--</div>-->
-        <div  style="float: left;margin: 10px 20px">
-        <img  height="60px" src="/img/aisama.png"/>
+        <div style="float: left;margin: 10px 20px">
+            <img height="60px" src="/img/aisama.png"/>
         </div>
         <i class="el-icon-s-home"></i>&nbsp;首页&nbsp;&nbsp;
         <i class="el-icon-share"></i>&nbsp;友链
         <div style="float: right;width: 400px;height: 60px;margin-right: 500px">
-            <el-input placeholder="请输入搜索内容...." v-model="input">
+            <el-input placeholder="请输入搜索内容...." v-model="search">
                 <el-button slot="append" icon="el-icon-search"></el-button>
             </el-input>
         </div>
@@ -30,7 +29,7 @@
         <div>
             <el-carousel :interval="3000" type="card" height="250px" trigger="click">
                 <el-carousel-item v-for="item in 6" :key="item" style="text-align: center">
-                    <img class="title_img" src="http://www.dmoe.cc/random.php" style="width:100%;min-height: 100%">
+                    <img class="title_img" :src="src+item" style="width:100%;min-height: 100%">
                     <h3 class="medium">{{ item }}</h3>
                 </el-carousel-item>
             </el-carousel>
@@ -43,7 +42,7 @@
                     <ul>
                         <li>
                             <el-tag style="border-color:#cfdadd" effect="dark" color="#cfdadd">
-                            <i class="el-icon-s-opportunity"></i>&nbsp;运行天数 {{run_days}}
+                                <i class="el-icon-s-opportunity"></i>&nbsp;运行天数 {{run_days}}
                             </el-tag>
                         </li>
                         <li>
@@ -59,38 +58,39 @@
                     </ul>
                 </div>
             </el-card>
-            <el-card class="fenleiCard top_margin" >
+            <el-card class="fenleiCard top_margin">
                 <i class="el-icon-menu"></i>&nbsp; 分类
                 <hr style="margin-top: 10px;margin-bottom:10px;border: 0.5px solid  rgba(0, 0, 0, .12)">
                 <el-tag style="border-color:#cfdadd" effect="dark" color="#cfdadd">
-                最后
+                    最后
                 </el-tag>
                 <el-tag style="border-color:#cfdadd" effect="dark" color="#cfdadd">
-                最后
-                </el-tag>
-                <el-tag style="border-color:#cfdadd" effect="dark" color="#cfdadd">
-                   最后更
+                    最后
                 </el-tag>
                 <el-tag style="border-color:#cfdadd" effect="dark" color="#cfdadd">
                     最后更
-                </el-tag> <el-tag style="border-color:#cfdadd" effect="dark" color="#cfdadd">
-                最后更
-            </el-tag>
+                </el-tag>
+                <el-tag style="border-color:#cfdadd" effect="dark" color="#cfdadd">
+                    最后更
+                </el-tag>
+                <el-tag style="border-color:#cfdadd" effect="dark" color="#cfdadd">
+                    最后更
+                </el-tag>
             </el-card>
         </div>
         <div class="index_body">
             <el-card class="box-card top_margin" v-for="title_msg in title_msgs">
-                <div style="width: 100%;height: 110px">
+                <div class="card" @click="jumpBlog(title_msg.id)" style="width: 100%;height: 110px">
                     <div style="width: 35%;height: 110px;overflow: hidden;float: left;text-align: center">
                         <img class="title_img" :src="title_msg.imgSrc" style="width:100%;min-height: 100%">
                     </div>
                     <div class="changeColor" style="width: 63%;height:110px;float: right;">
-                        <h3  style="height: 30px;text-overflow: ellipsis;white-space:nowrap;overflow: hidden">
-                            <el-tag style="border-color:lightpink"  effect=dark size=small color=lightpink>标签一</el-tag>
-                            标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题
+                        <h3 style="height: 30px;text-overflow: ellipsis;white-space:nowrap;overflow: hidden">
+                            <el-tag style="border-color:lightpink" effect=dark size=small color=lightpink> {{title_msg.label}}</el-tag>
+                            {{title_msg.blog_title}}
                         </h3>
-                        <div style="height: 80px;text-overflow: ellipsis;white-space:nowrap;overflow: hidden">
-                            123423423
+                        <div style="padding: 12px 0px;height: 55px;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 3;overflow: hidden">
+                            {{title_msg.blog_text}}
                         </div>
                     </div>
                 </div>
@@ -105,7 +105,13 @@
         <el-pagination
                 background
                 layout="prev, pager, next"
-                :total="100">
+                :total="total"
+                :current-page="pageNum"
+                page-size="5"
+                @prev-click="pageClick"
+                @next-click="pageClick"
+                @current-change="pageClick"
+        >
         </el-pagination>
     </div>
 </div>
@@ -113,18 +119,54 @@
     new Vue({
         el: '#app',
         data: {
-            input: '',
-            title_msgs: [
-                {userName: "AI", lookNum: "666", createDate: "2019-08-21", imgSrc: "http://www.dmoe.cc/random.php?time=1"},
-                {userName: "AI2", lookNum: "777", createDate: "2019-08-22",imgSrc:"http://www.dmoe.cc/random.php?time=2"},
-                {userName: "AI3", lookNum: "888", createDate: "2019-08-23",imgSrc:"http://www.dmoe.cc/random.php?time=3"},
-                {userName: "AI4", lookNum: "999", createDate: "2019-08-24",imgSrc:"http://www.dmoe.cc/random.php?time=4"},
-                {userName: "AI5", lookNum: "111", createDate: "2019-08-25",imgSrc:"http://www.dmoe.cc/random.php?time=5"},
-                {userName: "AI6", lookNum: "222", createDate: "2019-08-26",imgSrc:"http://www.dmoe.cc/random.php?time=6"}
-            ],
-            run_days:"666天",
-            text_count:"999",
-            refresh_date:"1天前"
+            pageNum: 1,
+            total: 0,
+            search: '',
+            title_msgs: [],
+            run_days: "666天",
+            text_count: "999",
+            refresh_date: "1天前",
+            src: "http://www.dmoe.cc/random.php?time="
+        },
+        created() {
+            this.loadPage();
+        },
+        methods: {
+            jumpBlog: function (id) {
+                window.location.href="/blog_text.html?id="+id;
+            },
+            pageClick: function (value) {
+                if (this.pageNum != value) {
+                    this.pageNum = value;
+                    this.loadPage();
+                }
+            },
+            loadPage: function () {
+                this.title_msgs = [];
+                axios.post("/BlogContentController/selectBlogList", {
+                    pageNum: this.pageNum,
+                    pageSize: 5,
+                }).then((res) => {
+                    var resData = res.data.resultData;
+                    console.log(res.data.resultData)
+                    for (var x = 0; x < resData.list.length; x++) {
+                        var showData = {
+                            userName: "AI",
+                            lookNum: resData.list[x].blogLookAmount,
+                            createDate: resData.list[x].gmtCreate,
+                            imgSrc: "http://www.dmoe.cc/random.php?time=" + x,
+                            blog_title: resData.list[x].blogTitle,
+                            blog_text: resData.list[x].blogBeWrite,
+                            id: resData.list[x].id,
+                            label:resData.list[x].blogLabel
+                        }
+                        Vue.set(this.title_msgs, x, showData);
+                    }
+                    this.total = resData.total;
+                }).catch((err) => {
+                    alert("未知错误")
+                });
+            }
         }
     })
 </script>
@@ -134,6 +176,7 @@
         padding: 0px;
         margin: 0px;
     }
+
     .el-carousel__item h3 {
         color: #475669;
         font-size: 14px;
@@ -141,9 +184,11 @@
         line-height: 200px;
         margin: 0;
     }
-    ul li{
+
+    ul li {
         list-style: none;
     }
+
     .el-carousel__item:nth-child(2n) {
         background-color: #99a9bf;
     }
@@ -151,19 +196,28 @@
     .el-carousel__item:nth-child(2n+1) {
         background-color: #d3dce6;
     }
-    #app{
-        background-color: rgb(243,243,243);
+
+    #app {
+        background-color: rgb(243, 243, 243);
     }
-    .fenleiCard{
+
+    .card:hover {
+        cursor: pointer;
+    }
+
+    .fenleiCard {
         height: 280px;
     }
+
     .title_img {
         cursor: pointer;
         transition: all 1s;
     }
-    .box-card:hover .changeColor{
+
+    .box-card:hover .changeColor {
         color: lightblue;
     }
+
     .box-card:hover .title_img {
         transform: scale(1.5);
     }
@@ -178,6 +232,7 @@
         height: 180px;
         width: 100%;
     }
+
     .top_margin:not(:first-child) {
         margin-top: 20px;
     }
@@ -185,13 +240,16 @@
     .box-card:hover {
         box-shadow: -3px 6px 15px rgba(0, 0, 0, .20), 0px 6px 15px rgba(0, 0, 0, .04);
     }
+
     .fenleiCard:hover {
         color: lightblue;
         box-shadow: -3px 6px 15px rgba(0, 0, 0, .20), 0px 6px 15px rgba(0, 0, 0, .04);
     }
-    .fenleiCard span{
+
+    .fenleiCard span {
         margin-top: 10px;
     }
+
     .index_center_body {
         overflow: hidden;
         width: 50%;

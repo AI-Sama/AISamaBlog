@@ -2,6 +2,9 @@ package com.blog.aisamablog.service;
 
 import com.blog.aisamablog.mapper.BlogContentMapper;
 import com.blog.aisamablog.model.BlogContent;
+import com.blog.aisamablog.model.PageValue;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,25 +22,33 @@ public class BlogContentServiceImpl implements BlogContentService {
 
     @Autowired
     BlogContentMapper blogContentMapper;
-    final Logger logger= LoggerFactory.getLogger(this.getClass());
+    final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     @Override
     public void insertBlog(BlogContent blogContent) {
-            blogContentMapper.insertSelective(blogContent);
+        blogContentMapper.insertSelective(blogContent);
     }
 
     @Override
     public void deleteBlog(BlogContent blogContent) {
-            blogContentMapper.deleteByPrimaryKey(blogContent.getId());
+        blogContentMapper.deleteByPrimaryKey(blogContent.getId());
     }
 
     @Override
     public void updateBlog(BlogContent blogContent) {
-            blogContentMapper.updateByPrimaryKeySelective(blogContent);
+        blogContentMapper.updateByPrimaryKeySelective(blogContent);
     }
 
     @Override
-    public List<BlogContent> selectBlog() {
+    public PageInfo<List<BlogContent>> selectBlogList(PageValue pageValue) {
+        PageHelper.startPage(pageValue.getPageNum(), pageValue.getPageSize());
+        List<BlogContent> blogContentList = blogContentMapper.selectBlogContentList();
+        PageInfo pageInfo = new PageInfo(blogContentList);
+        return pageInfo;
+    }
 
-        return null;
+    @Override
+    public BlogContent selectBlog(Integer id) {
+        return blogContentMapper.selectByPrimaryKey(id);
     }
 }

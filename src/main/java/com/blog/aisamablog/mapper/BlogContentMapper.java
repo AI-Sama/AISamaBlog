@@ -3,11 +3,13 @@ package com.blog.aisamablog.mapper;
 import com.blog.aisamablog.model.BlogContent;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface BlogContentMapper {
     int deleteByPrimaryKey(Integer id);
 
-    int insert(BlogContent record);
+    List<BlogContent> selectBlogContentList();
 
     int insertSelective(BlogContent record);
 
@@ -15,5 +17,4 @@ public interface BlogContentMapper {
 
     int updateByPrimaryKeySelective(BlogContent record);
 
-    int updateByPrimaryKey(BlogContent record);
 }

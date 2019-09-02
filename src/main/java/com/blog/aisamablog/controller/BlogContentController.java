@@ -4,17 +4,14 @@ import com.blog.aisamablog.model.BlogContent;
 import com.blog.aisamablog.model.PageValue;
 import com.blog.aisamablog.model.ResultBean;
 import com.blog.aisamablog.service.BlogContentServiceImpl;
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 /**
  * @program: aisamablog
@@ -27,7 +24,8 @@ import java.util.List;
 public class BlogContentController {
     @Autowired
     BlogContentServiceImpl blogContentService;
-    final Logger logger= LoggerFactory.getLogger(this.getClass());
+    final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     @ApiOperation("添加一条博客")
     @PostMapping(value = "/insertBlog", produces = {"application/json;charset=utf-8"})
     public ResultBean insertBlog(@RequestBody BlogContent blogContent) {
@@ -52,7 +50,14 @@ public class BlogContentController {
     @ApiOperation("查找所有博客")
     @PostMapping(value = "/selectBlogList", produces = {"application/json;charset=utf-8"})
     public ResultBean selectBlogList(@RequestBody PageValue pageValue) {
-        List<BlogContent> blogContentList = blogContentService.selectBlog();
-        return new ResultBean(blogContentList);
+        PageInfo listPageInfo = blogContentService.selectBlogList(pageValue);
+        return new ResultBean(listPageInfo);
+    }
+
+    @ApiOperation("根据id查找一个博客")
+    @GetMapping(value = "/selectBlogById", produces = {"application/json;charset=utf-8"})
+    public ResultBean<BlogContent> selectBlogById(Integer id) {
+        BlogContent blogContent = blogContentService.selectBlog(id);
+        return new ResultBean(blogContent);
     }
 }
