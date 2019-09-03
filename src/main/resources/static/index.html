@@ -4,27 +4,15 @@
 <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
 <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<link rel="stylesheet" href="/css/main.css">
+<script src="/js/main.js"></script>
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
 <div id="app">
-    <div class="index_head">
-        <!--<div style="float: left;margin:13px 0px 10px 40px;border: 3px solid dimgray;width: 55px;height:55px;border-radius: 50%;overflow: hidden;" >-->
-        <!--<img width="55px" src="/img/gaomu.jpg"/>-->
-        <!--</div>-->
-        <div style="float: left;margin: 10px 20px">
-            <img height="60px" src="/img/aisama.png"/>
-        </div>
-        <i class="el-icon-s-home"></i>&nbsp;首页&nbsp;&nbsp;
-        <i class="el-icon-share"></i>&nbsp;友链
-        <div style="float: right;width: 400px;height: 60px;margin-right: 500px">
-            <el-input placeholder="请输入搜索内容...." v-model="search">
-                <el-button slot="append" icon="el-icon-search"></el-button>
-            </el-input>
-        </div>
-    </div>
+    <index-head :search="search" @indexback="indexback"></index-head>
     <div class="index_center_body">
         <div>
             <el-carousel :interval="3000" type="card" height="250px" trigger="click">
@@ -86,7 +74,9 @@
                     </div>
                     <div class="changeColor" style="width: 63%;height:110px;float: right;">
                         <h3 style="height: 30px;text-overflow: ellipsis;white-space:nowrap;overflow: hidden">
-                            <el-tag style="border-color:lightpink" effect=dark size=small color=lightpink> {{title_msg.label}}</el-tag>
+                            <el-tag style="border-color:lightpink" effect=dark size=small color=lightpink>
+                                {{title_msg.label}}
+                            </el-tag>
                             {{title_msg.blog_title}}
                         </h3>
                         <div style="padding: 12px 0px;height: 55px;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 3;overflow: hidden">
@@ -116,24 +106,24 @@
     </div>
 </div>
 <script>
-    new Vue({
+     new Vue({
         el: '#app',
         data: {
+            search:'',
             pageNum: 1,
             total: 0,
-            search: '',
             title_msgs: [],
-            run_days: "666天",
-            text_count: "999",
-            refresh_date: "1天前",
-            src: "http://www.dmoe.cc/random.php?time="
+            run_days: '666天',
+            text_count: '999',
+            refresh_date: '1天前',
+            src: 'http://www.dmoe.cc/random.php?time='
         },
         created() {
             this.loadPage();
         },
         methods: {
             jumpBlog: function (id) {
-                window.location.href="/blog_text.html?id="+id;
+                window.location.href = "/blog_text.html?id=" + id;
             },
             pageClick: function (value) {
                 if (this.pageNum != value) {
@@ -141,6 +131,9 @@
                     this.loadPage();
                 }
             },
+            indexback: function () {
+            window.location.href = "/index.html";
+           },
             loadPage: function () {
                 this.title_msgs = [];
                 axios.post("/BlogContentController/selectBlogList", {
@@ -158,7 +151,7 @@
                             blog_title: resData.list[x].blogTitle,
                             blog_text: resData.list[x].blogBeWrite,
                             id: resData.list[x].id,
-                            label:resData.list[x].blogLabel
+                            label: resData.list[x].blogLabel
                         }
                         Vue.set(this.title_msgs, x, showData);
                     }
@@ -172,11 +165,6 @@
 </script>
 </body>
 <style>
-    * {
-        padding: 0px;
-        margin: 0px;
-    }
-
     .el-carousel__item h3 {
         color: #475669;
         font-size: 14px;
@@ -210,7 +198,6 @@
     }
 
     .title_img {
-        cursor: pointer;
         transition: all 1s;
     }
 
@@ -255,17 +242,6 @@
         width: 50%;
         margin: 80px auto 0px auto;
         padding: 20px;
-    }
-
-    .index_head {
-        line-height: 80px;
-        background-color: white;
-        box-shadow: 0 10px 10px rgba(0, 0, 0, .12);
-        width: 100%;
-        height: 80px;
-        position: fixed;
-        top: 0px;
-        z-index: 100;
     }
 
 </style>

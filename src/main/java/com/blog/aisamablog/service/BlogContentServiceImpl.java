@@ -51,4 +51,5 @@ public class BlogContentServiceImpl implements BlogContentService {
     public BlogContent selectBlog(Integer id) {
         return blogContentMapper.selectByPrimaryKey(id);
     }
+
 }

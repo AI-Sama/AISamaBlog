@@ -6,26 +6,14 @@
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
     <script type="text/javascript" src="/js/wangEditor.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="/js/main.js"></script>
+    <link rel="stylesheet" href="/css/main.css">
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
 <div id="app">
-    <div class="index_head">
-        <!--<div style="float: left;margin:13px 0px 10px 40px;border: 3px solid dimgray;width: 55px;height:55px;border-radius: 50%;overflow: hidden;" >-->
-        <!--<img width="55px" src="/img/gaomu.jpg"/>-->
-        <!--</div>-->
-        <div  style="float: left;margin: 10px 20px">
-            <img  height="60px" src="/img/aisama.png"/>
-        </div>
-        <i class="el-icon-s-home"></i>&nbsp;首页&nbsp;&nbsp;
-        <i class="el-icon-share"></i>&nbsp;友链
-        <div style="float: right;width: 400px;height: 60px;margin-right: 500px">
-            <el-input placeholder="请输入搜索内容...." v-model="search">
-                <el-button slot="append" icon="el-icon-search"></el-button>
-            </el-input>
-        </div>
-    </div>
+    <index-head :search="search"  @indexback="indexback"></index-head>
     <div class="create_blog_body">
         <div class="create_blog_title">
             <el-input placeholder="请输入标题" v-model="blogTitle" maxlength="20"
@@ -54,8 +42,12 @@
             blogLabel: ""
         },
         methods: {
+            indexback: function () {
+                window.location.href = "/index.html";
+            },
             createBlog:function () {
                 var bewrite=editor.txt.text();
+                bewrite=bewrite.replace(/&nbsp;/g,'').replace(/ /g,'');
                 axios.post("/BlogContentController/insertBlog",{
                     blogTitle:this.blogTitle,
                     blogLabel:this.blogLabel,
@@ -104,16 +96,6 @@
     #editor_body {
         border: 1px solid #ccc;
         height: 700px;
-    }
-    .index_head {
-        line-height: 80px;
-        background-color: white;
-        box-shadow: 0 10px 10px rgba(0, 0, 0, .12);
-        width: 100%;
-        height: 80px;
-        position: fixed;
-        top: 0px;
-        z-index: 100;
     }
 </style>
 </html>
