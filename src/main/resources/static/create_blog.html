@@ -46,13 +46,21 @@
                 window.location.href = "/index.html";
             },
             createBlog:function () {
+                if(this.blogTitle.trim().length<=0){
+                    alert("标题不能为空")
+                    return
+                }
+                if(this.blogLabel.trim().length<=0){
+                    alert("标签不能为空")
+                    return
+                }
                 var bewrite=editor.txt.text();
-                bewrite=bewrite.replace(/&nbsp;/g,'').replace(/ /g,'');
+                bewrite=bewrite.replace(/&nbsp;/g,'').trim().slice(0,10);
                 axios.post("/BlogContentController/insertBlog",{
                     blogTitle:this.blogTitle,
                     blogLabel:this.blogLabel,
                     blogText:editor.txt.html(),
-                    blogBeWrite:bewrite.slice(0,100)
+                    blogBeWrite:bewrite
                    }) .then((res)=>{
                      alert(res.data.resultMsg)
                     })
