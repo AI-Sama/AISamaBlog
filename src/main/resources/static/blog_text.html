@@ -65,6 +65,9 @@
             indexback: function () {
                 window.location.href = "/index.html";
             },
+            links:function(){
+                window.location.href = "/links.html";
+            },
             initBlogText:function () {
                 axios.get("/BlogContentController/selectBlogById",{
                     params:{
@@ -102,9 +105,6 @@
     }
     .w-e-text{
         overflow-y: hidden;
-    }
-    html{
-        background-color: rgb(243, 243, 243);
     }
 </style>
 </html>

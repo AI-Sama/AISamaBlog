@@ -12,7 +12,7 @@
 </head>
 <body>
 <div id="app">
-    <index-head :search="search" @indexback="indexback"></index-head>
+    <index-head :search="search" @indexback="indexback" @links="links"></index-head>
     <div class="index_center_body">
         <div>
             <el-carousel :interval="3000" type="card" height="250px" trigger="click">
@@ -30,17 +30,17 @@
                     <ul>
                         <li>
                             <el-tag style="border-color:#cfdadd" effect="dark" color="#cfdadd">
-                                <i class="el-icon-s-opportunity"></i>&nbsp;运行天数 {{run_days}}
+                                <i class="el-icon-s-opportunity"></i>&nbsp;运行天数： {{run_days}} 天
                             </el-tag>
                         </li>
                         <li>
                             <el-tag style="border-color:#cfdadd" effect="dark" color="#cfdadd">
-                                <i class="el-icon-notebook-2"></i>&nbsp;文章数量 {{text_count}}
+                                <i class="el-icon-notebook-2"></i>&nbsp;文章数量： {{text_count}} 篇
                             </el-tag>
                         </li>
                         <li>
                             <el-tag style="border-color:#cfdadd" effect="dark" color="#cfdadd">
-                                <i class="el-icon-refresh"></i>&nbsp;最后更新 {{refresh_date}}
+                                <i class="el-icon-refresh"></i>&nbsp;最后更新： {{refresh_date}}
                             </el-tag>
                         </li>
                     </ul>
@@ -49,20 +49,8 @@
             <el-card class="fenleiCard top_margin">
                 <i class="el-icon-menu"></i>&nbsp; 分类
                 <hr style="margin-top: 10px;margin-bottom:10px;border: 0.5px solid  rgba(0, 0, 0, .12)">
-                <el-tag style="border-color:#cfdadd" effect="dark" color="#cfdadd">
-                    最后
-                </el-tag>
-                <el-tag style="border-color:#cfdadd" effect="dark" color="#cfdadd">
-                    最后
-                </el-tag>
-                <el-tag style="border-color:#cfdadd" effect="dark" color="#cfdadd">
-                    最后更
-                </el-tag>
-                <el-tag style="border-color:#cfdadd" effect="dark" color="#cfdadd">
-                    最后更
-                </el-tag>
-                <el-tag style="border-color:#cfdadd" effect="dark" color="#cfdadd">
-                    最后更
+                <el-tag style="border-color:#cfdadd" effect="dark" color="#cfdadd" v-for="label in labels">
+                    {{label}}
                 </el-tag>
             </el-card>
         </div>
@@ -106,20 +94,22 @@
     </div>
 </div>
 <script>
-     new Vue({
+    new Vue({
         el: '#app',
         data: {
-            search:'',
+            search: '',
             pageNum: 1,
             total: 0,
+            labels: [],
             title_msgs: [],
-            run_days: '666天',
-            text_count: '999',
-            refresh_date: '1天前',
+            run_days: 0,
+            text_count: 0,
+            refresh_date: '',
             src: 'http://www.dmoe.cc/random.php?time='
         },
         created() {
-            this.loadPage();
+            this.loadBlog();
+            this.loadLabel();
         },
         methods: {
             jumpBlog: function (id) {
@@ -128,20 +118,22 @@
             pageClick: function (value) {
                 if (this.pageNum != value) {
                     this.pageNum = value;
-                    this.loadPage();
+                    this.loadBlog();
                 }
             },
             indexback: function () {
-            window.location.href = "/index.html";
-           },
-            loadPage: function () {
+                window.location.href = "/index.html";
+            },
+            links:function(){
+                window.location.href = "/links.html";
+            },
+            loadBlog: function () {
                 this.title_msgs = [];
                 axios.post("/BlogContentController/selectBlogList", {
                     pageNum: this.pageNum,
                     pageSize: 5,
                 }).then((res) => {
                     var resData = res.data.resultData;
-                    console.log(res.data.resultData)
                     for (var x = 0; x < resData.list.length; x++) {
                         var showData = {
                             userName: "AI",
@@ -155,7 +147,26 @@
                         }
                         Vue.set(this.title_msgs, x, showData);
                     }
-                    this.total = resData.total;
+                    if (this.pageNum == 1) {
+                        var startDate = Date.parse("2019-09-01");
+                        var nowDate = Date.parse(new Date());
+                        var day = parseInt((nowDate - startDate) / (1000 * 60 * 60 * 24));
+                        this.text_count = resData.total;
+                        this.run_days = day;
+                        this.refresh_date = resData.list[0].gmtCreate;
+                        this.total = resData.total;
+                    }
+                }).catch((err) => {
+                    alert("未知错误")
+                });
+            },
+            loadLabel: function () {
+                axios.get("/BlogContentController/selectBlogCategory", {}).then((res) => {
+                    var resData = res.data.resultData;
+                    console.log(resData)
+                    for (var x = 0; x < resData.length; x++) {
+                        Vue.set(this.labels, x, resData[x]);
+                    }
                 }).catch((err) => {
                     alert("未知错误")
                 });
@@ -185,9 +196,6 @@
         background-color: #d3dce6;
     }
 
-    #app {
-        background-color: rgb(243, 243, 243);
-    }
 
     .card:hover {
         cursor: pointer;
@@ -235,6 +243,7 @@
 
     .fenleiCard span {
         margin-top: 10px;
+        margin-left: 5px;
     }
 
     .index_center_body {
@@ -243,6 +252,5 @@
         margin: 80px auto 0px auto;
         padding: 20px;
     }
-
 </style>
 </html>

@@ -48,6 +48,11 @@ public class BlogContentServiceImpl implements BlogContentService {
     }
 
     @Override
+    public List<String> selectBlogCategory() {
+        return blogContentMapper.selectBlogCategory();
+    }
+
+    @Override
     public BlogContent selectBlog(Integer id) {
         return blogContentMapper.selectByPrimaryKey(id);
     }

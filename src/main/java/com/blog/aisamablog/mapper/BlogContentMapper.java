@@ -11,6 +11,8 @@ public interface BlogContentMapper {
 
     List<BlogContent> selectBlogContentList();
 
+    List<String> selectBlogCategory();
+
     int insertSelective(BlogContent record);
 
     BlogContent selectByPrimaryKey(Integer id);

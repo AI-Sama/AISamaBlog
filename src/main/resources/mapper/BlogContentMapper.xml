@@ -20,6 +20,9 @@
     <sql id="Blob_Column_List">
     blog_text
   </sql>
+    <select id="selectBlogCategory" resultType="java.lang.String">
+      select distinct  blog_label from blog_content
+    </select>
     <select id="selectBlogContentList" resultMap="ResultMapWithBLOBs">
         select
         <include refid="Base_Column_List"/>

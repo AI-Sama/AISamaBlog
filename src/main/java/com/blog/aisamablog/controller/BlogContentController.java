@@ -12,6 +12,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 /**
  * @program: aisamablog
@@ -59,5 +61,12 @@ public class BlogContentController {
     public ResultBean<BlogContent> selectBlogById(Integer id) {
         BlogContent blogContent = blogContentService.selectBlog(id);
         return new ResultBean(blogContent);
+    }
+
+    @ApiOperation("查找博客全部分类")
+    @GetMapping(value = "/selectBlogCategory", produces = {"application/json;charset=utf-8"})
+    public ResultBean<List<String>> selectBlogCategory() {
+        List<String> blogCategorys = blogContentService.selectBlogCategory();
+        return new ResultBean(blogCategorys);
     }
 }

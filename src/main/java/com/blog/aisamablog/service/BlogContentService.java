@@ -17,5 +17,7 @@ public interface BlogContentService {
 
     PageInfo<List<BlogContent>> selectBlogList(PageValue pageValue);
 
+    List<String> selectBlogCategory();
+
     BlogContent selectBlog(Integer id);
 }
