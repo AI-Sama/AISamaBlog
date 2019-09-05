@@ -22,6 +22,7 @@ html{
 }
 
 .index-button:hover {
+    color: red;
     cursor: pointer;
 }
 .links-button {
@@ -29,6 +30,7 @@ html{
 }
 
 .links-button:hover {
+    color: red;
     cursor: pointer;
 }
 .search-button{

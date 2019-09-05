@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blog.aisamablog.mapper.LinksMapper">
+  <resultMap id="BaseResultMap" type="com.blog.aisamablog.model.Links">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="link_name" jdbcType="VARCHAR" property="linkName" />
+    <result column="link_head_img" jdbcType="VARCHAR" property="linkHeadImg" />
+    <result column="link_href" jdbcType="VARCHAR" property="linkHref" />
+    <result column="link_summary" jdbcType="VARCHAR" property="linkSummary" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, gmt_create, gmt_modified, link_name, link_head_img, link_href, link_summary
+  </sql>
+  <select id="selectLinkList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from links
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from links
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from links
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.blog.aisamablog.model.Links">
+    insert into links (id, gmt_create, gmt_modified, 
+      link_name, link_head_img, link_href, 
+      link_summary)
+    values (#{id,jdbcType=INTEGER}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, 
+      #{linkName,jdbcType=VARCHAR}, #{linkHeadImg,jdbcType=VARCHAR}, #{linkHref,jdbcType=VARCHAR}, 
+      #{linkSummary,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.blog.aisamablog.model.Links">
+    insert into links
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified,
+      </if>
+      <if test="linkName != null">
+        link_name,
+      </if>
+      <if test="linkHeadImg != null">
+        link_head_img,
+      </if>
+      <if test="linkHref != null">
+        link_href,
+      </if>
+      <if test="linkSummary != null">
+        link_summary,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="linkName != null">
+        #{linkName,jdbcType=VARCHAR},
+      </if>
+      <if test="linkHeadImg != null">
+        #{linkHeadImg,jdbcType=VARCHAR},
+      </if>
+      <if test="linkHref != null">
+        #{linkHref,jdbcType=VARCHAR},
+      </if>
+      <if test="linkSummary != null">
+        #{linkSummary,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.blog.aisamablog.model.Links">
+    update links
+    <set>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="linkName != null">
+        link_name = #{linkName,jdbcType=VARCHAR},
+      </if>
+      <if test="linkHeadImg != null">
+        link_head_img = #{linkHeadImg,jdbcType=VARCHAR},
+      </if>
+      <if test="linkHref != null">
+        link_href = #{linkHref,jdbcType=VARCHAR},
+      </if>
+      <if test="linkSummary != null">
+        link_summary = #{linkSummary,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.blog.aisamablog.model.Links">
+    update links
+    set gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      link_name = #{linkName,jdbcType=VARCHAR},
+      link_head_img = #{linkHeadImg,jdbcType=VARCHAR},
+      link_href = #{linkHref,jdbcType=VARCHAR},
+      link_summary = #{linkSummary,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

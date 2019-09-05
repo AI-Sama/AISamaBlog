@@ -24,6 +24,7 @@
         <el-card class="box-card">
             <div slot="header" class="clearfix card_head">
                <h2>{{title}}</h2>
+                <br/>
                 <i class="el-icon-user-solid"></i>&nbsp;{{userName}}&nbsp;
                 <i class="el-icon-view"></i>&nbsp;{{lookNum}}&nbsp;
                 <i class="el-icon-date"></i>&nbsp;{{createDate}}
@@ -45,7 +46,7 @@
     new Vue({
         el: '#app',
         data: {
-            search:'',
+            search:'false',
             blogId:'',
             title:'',
             userName:'AI',
@@ -75,7 +76,6 @@
                     }
                 }) .then((res)=>{
                     var resultdata=res.data.resultData;
-                    console.log(resultdata)
                     this.title=resultdata.blogTitle;
                     this.lookNum=resultdata.blogLookAmount;
                     this.createDate=resultdata.gmtCreate;
@@ -101,7 +101,7 @@
     }
     .card_head{
         text-align: center;
-        height: 60px;
+        height: 70px;
     }
     .w-e-text{
         overflow-y: hidden;

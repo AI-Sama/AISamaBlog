@@ -54,7 +54,12 @@ public class BlogContentServiceImpl implements BlogContentService {
 
     @Override
     public BlogContent selectBlog(Integer id) {
-        return blogContentMapper.selectByPrimaryKey(id);
+        BlogContent blogContent=blogContentMapper.selectByPrimaryKey(id);
+        BlogContent updateBlog=new BlogContent();
+        updateBlog.setId(blogContent.getId());
+        updateBlog.setBlogLookAmount(blogContent.getBlogLookAmount()+1);
+        blogContentMapper.updateByPrimaryKeySelective(updateBlog);
+        return blogContent;
     }
 
 }

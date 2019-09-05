@@ -20,7 +20,7 @@
         </el-card>
     </div>
     <div class="links_body">
-        <el-card class="box-card">
+        <el-card>
             <a  :href="link.linkHref" style="text-decoration:none;color:#333;" v-for="link in links">
                 <el-tooltip class="item" effect="light" :content="link.linkSummary" placement="right">
                         <el-card class="link-card" shadow="hover">
@@ -38,7 +38,7 @@
     new Vue({
         el: '#app',
         data: {
-            search:'',
+            search:'false',
             links:[],
         },
         created:function(){
@@ -85,9 +85,6 @@
         margin: auto;
         margin-top: 20px;
     }
-    .box-card{
-
-    }
     .link-card{
         width: 280px;
         display: inline-block;
@@ -96,10 +93,9 @@
     .link-card:hover{
         color: red;
     }
-    .el-card__body{
+    .links_body .el-card__body{
         padding: 10px;
     }
-
     .block_img{
         display: inline-block;
         vertical-align: top;
