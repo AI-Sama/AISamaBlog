@@ -19,6 +19,18 @@
             </el-page-header>
         </el-card>
     </div>
+    <div class="links_body">
+        <el-card class="box-card">
+            <a  :href="link.linkHref" style="text-decoration:none;color:#333;" v-for="link in links">
+                <el-tooltip class="item" effect="light" :content="link.linkSummary" placement="right">
+                        <el-card class="link-card" shadow="hover">
+                        <div class="block_img"><el-avatar shape="square" :size="40" :src="link.linkHeadImg" ></el-avatar></div>
+                        <div class="block_name">&nbsp;{{link.linkName}}</div>
+                        </el-card>
+                </el-tooltip>
+            </a>
+        </el-card>
+    </div>
 </div>
 </body>
 
@@ -27,8 +39,10 @@
         el: '#app',
         data: {
             search:'',
+            links:[],
         },
         created:function(){
+            this.loadLinks();
         },
         methods:{
             indexback: function () {
@@ -39,6 +53,23 @@
             },
             goBack:function () {
                 window.history.back();
+            },
+            loadLinks:function () {
+                axios.get("/LinksController/selectLinkList", {}).then((res) => {
+                    var resData = res.data.resultData;
+                    console.log(resData)
+                    for (var x = 0; x < resData.length; x++) {
+                        var link={
+                            linkName:resData[x].linkName,
+                            linkHeadImg:resData[x].linkHeadImg,
+                            linkHref:resData[x].linkHref,
+                            linkSummary:resData[x].linkSummary
+                        }
+                        Vue.set(this.links, x, link);
+                    }
+                }).catch((err) => {
+                    alert("未知错误")
+                });
             }
         }
     })
@@ -48,6 +79,38 @@
         width: 50%;
         margin: auto;
         margin-top: 100px;
+    }
+    .links_body{
+        width: 50%;
+        margin: auto;
+        margin-top: 20px;
+    }
+    .box-card{
+
+    }
+    .link-card{
+        width: 280px;
+        display: inline-block;
+        margin: 10px;
+    }
+    .link-card:hover{
+        color: red;
+    }
+    .el-card__body{
+        padding: 10px;
+    }
+
+    .block_img{
+        display: inline-block;
+        vertical-align: top;
+        width: 40px;
+        height: 40px;
+    }
+    .block_name{
+        line-height: 40px;
+        font-size: 22px;
+        display: inline-block;
+        height: 40px;
     }
 </style>
 </html>

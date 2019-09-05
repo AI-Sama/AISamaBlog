@@ -1,8 +1,10 @@
 * {
+    font-family: Arial;
     padding: 0px;
     margin: 0px;
 }
 html{
+
     background-color: rgb(243, 243, 243);
 }
 .index_head {

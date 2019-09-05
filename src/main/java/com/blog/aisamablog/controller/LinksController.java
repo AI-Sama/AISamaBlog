@@ -16,7 +16,7 @@ import java.util.List;
  * @create: 2019-09-05 16:58
  **/
 @RestController
-@RequestMapping(value = "/BlogUserController")
+@RequestMapping(value = "/LinksController")
 @Api(tags = "友情链接")
 public class LinksController {
     @Autowired
