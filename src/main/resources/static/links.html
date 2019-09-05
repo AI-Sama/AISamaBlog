@@ -13,6 +13,12 @@
 <body style="height: 100%;">
 <div id="app">
     <index-head :search="search"  @indexback="indexback"></index-head>
+    <div class="index_el_page">
+        <el-card class="box-card">
+            <el-page-header @back="goBack" content="友情链接">
+            </el-page-header>
+        </el-card>
+    </div>
 </div>
 </body>
 
@@ -27,10 +33,21 @@
         methods:{
             indexback: function () {
                 window.location.href = "/index.html";
+            },
+            links:function(){
+                window.location.href = "/links.html";
+            },
+            goBack:function () {
+                window.history.back();
             }
         }
     })
 </script>
 <style>
+    .index_el_page{
+        width: 50%;
+        margin: auto;
+        margin-top: 100px;
+    }
 </style>
 </html>

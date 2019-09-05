@@ -12,7 +12,7 @@
 </head>
 <body>
 <div id="app">
-    <index-head :search="search" @indexback="indexback" @links="links"></index-head>
+    <index-head :search="search" @indexback="indexback" @links="links" @searchblog="searchblog"></index-head>
     <div class="index_center_body">
         <div>
             <el-carousel :interval="3000" type="card" height="250px" trigger="click">
@@ -126,6 +126,9 @@
             },
             links:function(){
                 window.location.href = "/links.html";
+            },
+            searchblog:function(){
+                alert(1)
             },
             loadBlog: function () {
                 this.title_msgs = [];

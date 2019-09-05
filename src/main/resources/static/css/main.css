@@ -22,3 +22,19 @@ html{
 .index-button:hover {
     cursor: pointer;
 }
+.links-button {
+    float: left;
+}
+
+.links-button:hover {
+    cursor: pointer;
+}
+.search-button{
+    width: 400px;
+    height: 60px;
+    float: right;
+    margin-right: 25%;
+}
+.search-button:hover {
+    cursor: pointer;
+}
