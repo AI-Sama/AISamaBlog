@@ -46,6 +46,7 @@
     new Vue({
         el: '#app',
         data: {
+            half: true,
             search:'false',
             blogId:'',
             title:'',
@@ -55,9 +56,28 @@
             blog_text:''
         },
         created:function(){
+            screenWidth = document.body.clientWidth;
+            if (screenWidth <= 1080) {
+                var html = document.getElementsByTagName("html")[0]
+                html.style.fontSize=screenWidth/32+'px';
+                this.half = false;
+            }
             var href=window.location.href;
             this.blogId=href.split("?")[1].split("=")[1];
             this.initBlogText();
+        },
+        mounted() {
+            window.onresize = () => {
+                screenWidth = document.body.clientWidth;
+                var html = document.getElementsByTagName("html")[0]
+                if (screenWidth <= 1080) {
+                    html.style.fontSize=screenWidth/32+'px';
+                    this.half = false
+                } else {
+                    html.style.fontSize=18+'px';
+                    this.half = true
+                }
+            }
         },
         methods:{
             goBack:function () {
