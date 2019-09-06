@@ -5,6 +5,7 @@ import com.blog.aisamablog.model.ResultBean;
 import com.blog.aisamablog.service.LinksServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +16,7 @@ import java.util.List;
  * @author: ZhangXiangQiang
  * @create: 2019-09-05 16:58
  **/
+@Slf4j
 @RestController
 @RequestMapping(value = "/LinksController")
 @Api(tags = "友情链接")

@@ -2,6 +2,7 @@ package com.blog.aisamablog.service;
 
 import com.blog.aisamablog.mapper.LinksMapper;
 import com.blog.aisamablog.model.Links;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,7 @@ import java.util.List;
  * @author: ZhangXiangQiang
  * @create: 2019-09-05 16:54
  **/
+@Slf4j
 @Service
 public class LinksServiceImpl implements LinksService {
     @Autowired

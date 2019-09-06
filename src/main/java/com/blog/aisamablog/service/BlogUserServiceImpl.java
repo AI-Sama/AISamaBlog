@@ -5,6 +5,7 @@ import com.blog.aisamablog.model.BlogUser;
 import com.blog.aisamablog.model.PageValue;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +18,12 @@ import java.util.List;
  * @author: ZhangXiangQiang
  * @create: 2019-09-01 16:27
  **/
+@Slf4j
 @Service
 public class BlogUserServiceImpl implements BlogUserService {
 
     @Autowired
     BlogUserMapper blogUserMapper;
-    final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Override
     public void insertUser(BlogUser blogUser) {

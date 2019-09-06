@@ -3,6 +3,7 @@ package com.blog.aisamablog.model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
+import org.springframework.context.annotation.Bean;
 
 import java.util.Date;
 

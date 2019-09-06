@@ -7,6 +7,7 @@ import com.blog.aisamablog.service.BlogUserServiceImpl;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +22,13 @@ import org.springframework.web.bind.annotation.RestController;
  * @author: ZhangXiangQiang
  * @create: 2019-09-01 16:24
  **/
+@Slf4j
 @RestController
 @RequestMapping(value = "/BlogUserController")
 @Api(tags = "账号")
 public class BlogUserController {
     @Autowired
     BlogUserServiceImpl blogUserService;
-    final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @ApiOperation("添加一个账号")
     @PostMapping(value = "/insertUser", produces = {"application/json;charset=utf-8"})

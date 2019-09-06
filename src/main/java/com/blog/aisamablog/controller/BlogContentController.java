@@ -7,6 +7,7 @@ import com.blog.aisamablog.service.BlogContentServiceImpl;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,13 +21,13 @@ import java.util.List;
  * @author: ZhangXiangQiang
  * @create: 2019-09-01 16:24
  **/
+@Slf4j
 @RestController
 @RequestMapping(value = "/BlogContentController")
 @Api(tags = "博客")
 public class BlogContentController {
     @Autowired
     BlogContentServiceImpl blogContentService;
-    final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @ApiOperation("添加一条博客")
     @PostMapping(value = "/insertBlog", produces = {"application/json;charset=utf-8"})
