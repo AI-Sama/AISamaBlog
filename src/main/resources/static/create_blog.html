@@ -14,7 +14,7 @@
 </head>
 <body>
 <div id="app">
-    <index-head :half="half" :search="search"  @indexback="indexback"></index-head>
+    <index-head :half="half" :search="search" @indexback="indexback"></index-head>
     <div class="create_blog_body">
         <div class="create_blog_title">
             <el-input placeholder="请输入标题" v-model="blogTitle" maxlength="20"
@@ -27,9 +27,9 @@
             </el-input>
         </div>
         <div id="editor_title"></div>
-        <div id="editor_body"> </div>
+        <div id="editor_body"></div>
         <div class="create_button">
-        <el-button @click="createBlog" type="primary"><i class="el-icon-check"></i>&nbsp;创建</el-button>
+            <el-button @click="createBlog" type="primary"><i class="el-icon-check"></i>&nbsp;创建</el-button>
         </div>
     </div>
 </div>
@@ -38,41 +38,63 @@
     new Vue({
         el: '#app',
         data: {
-            search:"false",
+            half: true,
+            search: "false",
             blogTitle: "",
             blogLabel: ""
+        },
+        created: function () {
+            screenWidth = document.body.clientWidth;
+            if (screenWidth <= 1080) {
+                var html = document.getElementsByTagName("html")[0]
+                html.style.fontSize = screenWidth / 32 + 'px';
+                this.half = false;
+            }
+        },
+        mounted() {
+            window.onresize = () => {
+                screenWidth = document.body.clientWidth;
+                var html = document.getElementsByTagName("html")[0]
+                if (screenWidth <= 1080) {
+                    html.style.fontSize = screenWidth / 32 + 'px';
+                    this.half = false
+                } else {
+                    html.style.fontSize = 18 + 'px';
+                    this.half = true
+                }
+            }
         },
         methods: {
             indexback: function () {
                 window.location.href = "/index.html";
             },
-            links:function(){
+            links: function () {
                 window.location.href = "/links.html";
             },
-            createBlog:function () {
-                if(this.blogTitle.trim().length<=0){
+            createBlog: function () {
+                if (this.blogTitle.trim().length <= 0) {
                     alert("标题不能为空")
                     return
                 }
-                if(this.blogLabel.trim().length<=0){
+                if (this.blogLabel.trim().length <= 0) {
                     alert("标签不能为空")
                     return
                 }
-                var bewrite=editor.txt.text();
-                bewrite=bewrite.replace(/&nbsp;/g,'').trim().slice(0,10);
-                axios.post("/BlogContentController/insertBlog",{
-                    blogTitle:this.blogTitle,
-                    blogLabel:this.blogLabel,
-                    blogText:editor.txt.html(),
-                    blogBeWrite:bewrite
-                   }) .then((res)=>{
-                     alert(res.data.resultMsg)
-                    })
-                    .catch(()=> {
+                var bewrite = editor.txt.text();
+                bewrite = bewrite.replace(/&nbsp;/g, '').trim().slice(0, 10);
+                axios.post("/BlogContentController/insertBlog", {
+                    blogTitle: this.blogTitle,
+                    blogLabel: this.blogLabel,
+                    blogText: editor.txt.html(),
+                    blogBeWrite: bewrite
+                }).then((res) => {
+                    alert(res.data.resultMsg)
+                })
+                    .catch(() => {
                         alert("未知错误")
                     });
-                this.blogTitle="";
-                this.blogLabel="";
+                this.blogTitle = "";
+                this.blogLabel = "";
                 editor.txt.html("");
             }
         }
@@ -97,14 +119,17 @@
     .create_blog_label {
         margin-bottom: 20px;
     }
-    .create_button{
+
+    .create_button {
         width: 100%;
         text-align: center;
         margin-top: 15px;
     }
+
     #editor_title {
         border: 1px solid #ccc;
     }
+
     #editor_body {
         border: 1px solid #ccc;
         height: 700px;

@@ -210,7 +210,9 @@
                         var day = parseInt((nowDate - startDate) / (1000 * 60 * 60 * 24));
                         this.text_count = resData.total;
                         this.run_days = day;
+                        if(resData.list.length>0){
                         this.refresh_date = resData.list[0].gmtCreate;
+                        }
                         this.total = resData.total;
                     }
                 }).catch((err) => {
