@@ -1,0 +1,35 @@
+Manifest-Version: 1.0
+Class-Path: log4j-api-2.11.2.jar log4j-to-slf4j-2.11.2.jar swagger-ann
+ otations-1.5.20.jar thymeleaf-spring5-3.0.11.RELEASE.jar hibernate-va
+ lidator-6.0.17.Final.jar spring-plugin-core-1.2.0.RELEASE.jar jackson
+ -core-2.9.9.jar jackson-datatype-jsr310-2.9.9.jar spring-boot-starter
+ -web-2.1.7.RELEASE.jar guava-20.0.jar spring-beans-5.1.9.RELEASE.jar 
+ springfox-swagger-common-2.9.2.jar jackson-annotations-2.9.0.jar jack
+ son-databind-2.9.9.jar unbescape-1.1.6.RELEASE.jar swagger-models-1.5
+ .20.jar jackson-datatype-jdk8-2.9.9.jar spring-core-5.1.9.RELEASE.jar
+  spring-boot-starter-logging-2.1.7.RELEASE.jar spring-boot-starter-to
+ mcat-2.1.7.RELEASE.jar HikariCP-3.2.0.jar spring-expression-5.1.9.REL
+ EASE.jar mysql-connector-java-8.0.17.jar springfox-schema-2.9.2.jar s
+ pringfox-swagger2-2.9.2.jar byte-buddy-1.9.16.jar classmate-1.4.0.jar
+  spring-boot-starter-json-2.1.7.RELEASE.jar pagehelper-spring-boot-au
+ toconfigure-1.2.5.jar spring-boot-starter-jdbc-2.1.7.RELEASE.jar spri
+ ng-boot-starter-2.1.7.RELEASE.jar thymeleaf-extras-java8time-3.0.4.RE
+ LEASE.jar tomcat-embed-el-9.0.22.jar mybatis-generator-core-1.3.6.jar
+  validation-api-2.0.1.Final.jar spring-jdbc-5.1.9.RELEASE.jar spring-
+ jcl-5.1.9.RELEASE.jar thymeleaf-3.0.11.RELEASE.jar slf4j-api-1.7.26.j
+ ar spring-web-5.1.9.RELEASE.jar pagehelper-5.1.4.jar javax.annotation
+ -api-1.3.2.jar mapstruct-1.2.0.Final.jar jackson-module-parameter-nam
+ es-2.9.9.jar jsqlparser-1.0.jar mybatis-spring-2.0.2.jar tomcat-embed
+ -websocket-9.0.22.jar springfox-spi-2.9.2.jar mybatis-spring-boot-sta
+ rter-2.1.0.jar spring-boot-2.1.7.RELEASE.jar spring-aop-5.1.9.RELEASE
+ .jar jul-to-slf4j-1.7.26.jar tomcat-embed-core-9.0.22.jar springfox-s
+ pring-web-2.9.2.jar spring-boot-starter-thymeleaf-2.1.7.RELEASE.jar j
+ boss-logging-3.3.2.Final.jar spring-boot-autoconfigure-2.1.7.RELEASE.
+ jar spring-context-5.1.9.RELEASE.jar mybatis-spring-boot-autoconfigur
+ e-2.1.0.jar springfox-swagger-ui-2.9.2.jar springfox-core-2.9.2.jar m
+ ybatis-3.5.2.jar spring-plugin-metadata-1.2.0.RELEASE.jar spring-webm
+ vc-5.1.9.RELEASE.jar lombok-1.18.8.jar logback-classic-1.2.3.jar spri
+ ng-tx-5.1.9.RELEASE.jar attoparser-2.0.5.RELEASE.jar logback-core-1.2
+ .3.jar pagehelper-spring-boot-starter-1.2.5.jar snakeyaml-1.23.jar
+Main-Class: com.blog.aisamablog.AisamablogApplication
+

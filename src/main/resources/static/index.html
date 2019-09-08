@@ -23,8 +23,8 @@
                 </el-carousel-item>
             </el-carousel>
         </div>
-        <div class="search-m">
-            <el-input v-if="!half" placeholder="请输入搜索内容...." v-model="search_m">
+        <div class="search-m" v-if="!half">
+            <el-input placeholder="请输入搜索内容...." v-model="search_m">
                 <el-button @click="searchblog" slot="append" icon="el-icon-search"></el-button>
             </el-input>
         </div>
@@ -115,7 +115,9 @@
         text-align: center;
         line-height: 3rem;
         color: #1989fa;
-       }">↑
+        font-size: 1.5rem;
+       }">
+            <i class="el-icon-caret-top"></i>
         </div>
     </el-backtop>
     <index-tail></index-tail>
@@ -179,7 +181,7 @@
                 window.location.href = "/links.html";
             },
             searchblog: function () {
-                alert(1)
+                alert("该功能尚未完成")
             },
             loadBlog: function () {
                 this.title_msgs = [];
@@ -193,7 +195,7 @@
                             userName: "AI",
                             lookNum: resData.list[x].blogLookAmount,
                             createDate: resData.list[x].gmtCreate,
-                            imgSrc: "http://www.dmoe.cc/random.php?time=" + x,
+                            imgSrc: "http://www.dmoe.cc/random.php?time=" + Math.ceil(Math.random()*100),
                             blog_title: resData.list[x].blogTitle,
                             blog_text: resData.list[x].blogBeWrite,
                             id: resData.list[x].id,
@@ -297,13 +299,16 @@
     }
     .search-m .el-input-group{
         width: 100%;
-        height: 90%;
     }
-    .el-input-group .el-input__inner{
-        height: 100%;
+    .search-m .el-input{
+        font-size: 1rem;
     }
-    .el-input-group .el-input-group__append{
-        width: 2rem;
+    .search-m .el-input-group .el-input__inner{
+        padding-left: 1rem;
+        height: 3.5rem;
+    }
+    .search-m .el-input-group .el-input-group__append{
+        width: 2.5rem;
     }
 
     .el-card:hover {

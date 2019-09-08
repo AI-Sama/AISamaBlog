@@ -13,19 +13,19 @@
 <body style="height: 100%;">
 <div id="app">
     <index-head :search="search"  @indexback="indexback"></index-head>
-    <div class="index_el_page">
+    <div :class="{index_el_page:half,index_el_page_m:!half}">
         <el-card class="box-card">
             <el-page-header @back="goBack" content="友情链接">
             </el-page-header>
         </el-card>
     </div>
-    <div class="links_body">
+    <div :class="{links_body:half,links_body_m:!half}">
         <el-card>
             <a  :href="link.linkHref" style="text-decoration:none;color:#333;" v-for="link in links">
                 <el-tooltip class="item" effect="light" :content="link.linkSummary" placement="right">
-                        <el-card class="link-card" shadow="hover">
-                        <div class="block_img"><el-avatar shape="square" :size="40" :src="link.linkHeadImg" ></el-avatar></div>
-                        <div class="block_name">&nbsp;{{link.linkName}}</div>
+                        <el-card :class="{link_card:half,link_card_m:!half}" :shadow="half?'hover':'always'">
+                        <div class="block_img"><el-avatar shape="square" :size="half?48:120" :src="link.linkHeadImg" ></el-avatar></div>
+                        <div class="block_name" :style="{height:(half?'3rem':'4rem'),'line-height':(half?'3rem':'4rem')}">&nbsp;{{link.linkName}}</div>
                         </el-card>
                 </el-tooltip>
             </a>
@@ -38,11 +38,34 @@
     new Vue({
         el: '#app',
         data: {
+            half:true,
             search:'false',
             links:[],
         },
         created:function(){
+            screenWidth = document.body.clientWidth;
+            if (screenWidth <= 1080) {
+                var html = document.getElementsByTagName("html")[0]
+                html.style.fontSize = screenWidth / 32 + 'px';
+                this.half = false;
+                this.search = 'false';
+            }
             this.loadLinks();
+        },
+        mounted() {
+            window.onresize = () => {
+                screenWidth = document.body.clientWidth;
+                var html = document.getElementsByTagName("html")[0]
+                if (screenWidth <= 1080) {
+                    html.style.fontSize = screenWidth / 32 + 'px';
+                    this.search = 'false';
+                    this.half = false
+                } else {
+                    html.style.fontSize = 18 + 'px';
+                    this.search = '';
+                    this.half = true
+                }
+            }
         },
         methods:{
             indexback: function () {
@@ -78,35 +101,60 @@
     .index_el_page{
         width: 50%;
         margin: auto;
-        margin-top: 100px;
+        margin-top: 5rem;
+    }
+    .index_el_page_m{
+        margin: 1rem;
+        margin-top: 5rem;
+    }
+    .el-page-header{
+        line-height: 2rem;
+    }
+    .el-icon-back{
+        font-size: 1rem !important;
+    }
+    .el-page-header__title{
+        font-size: 1rem;
+    }
+    .el-page-header__content{
+        font-size: 1rem;
     }
     .links_body{
         width: 50%;
         margin: auto;
-        margin-top: 20px;
+        margin-top: 1rem;
     }
-    .link-card{
-        width: 280px;
+    .links_body_m{
+        margin: 1rem;
+    }
+    .link_card{
+        height: 4rem;
+        width: 47%;
         display: inline-block;
-        margin: 10px;
+        margin: 1%;
     }
-    .link-card:hover{
+    .link_card_m{
+        height: 5rem;
+        margin-bottom: 1rem;
+    }
+    .link_card:hover{
         color: red;
     }
     .links_body .el-card__body{
-        padding: 10px;
+        padding: 0.5rem;
     }
     .block_img{
         display: inline-block;
         vertical-align: top;
-        width: 40px;
-        height: 40px;
     }
     .block_name{
-        line-height: 40px;
-        font-size: 22px;
+        width: 75%;
+        text-overflow: ellipsis;
         display: inline-block;
-        height: 40px;
+        white-space: nowrap;
+        overflow: hidden;
+        margin-left: 1rem;
+        font-size: 2rem;
     }
 </style>
 </html>

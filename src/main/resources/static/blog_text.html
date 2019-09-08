@@ -14,13 +14,13 @@
 <body style="height: 100%;">
 <div id="app">
     <index-head :search="search"  @indexback="indexback"></index-head>
-    <div class="index_el_page">
+    <div :class="{index_el_page:half,index_el_page_m:!half}">
         <el-card class="box-card">
         <el-page-header @back="goBack" content="正文">
         </el-page-header>
         </el-card>
     </div>
-    <div class="index_body">
+    <div :class="{index_body:half,index_body_m:!half}">
         <el-card class="box-card">
             <div slot="header" class="clearfix card_head">
                <h2>{{title}}</h2>
@@ -112,16 +112,34 @@
     .index_el_page{
         width: 50%;
         margin: auto;
-        margin-top: 100px;
+        margin-top: 5rem;
+    }
+    .index_el_page_m{
+        margin: 1rem;
+        margin-top: 5rem;
+    }
+    .el-page-header{
+        line-height: 2rem;
+    }
+    .el-icon-back{
+        font-size: 1rem !important;
+    }
+    .el-page-header__title{
+        font-size: 1rem;
+    }
+    .el-page-header__content{
+        font-size: 1rem;
     }
     .index_body{
         margin: auto;
-        margin-top: 20px;
+        margin-top: 1rem;
         width: 50%;
+    }
+    .index_body_m{
+        margin: 1rem;
     }
     .card_head{
         text-align: center;
-        height: 70px;
     }
     .w-e-text{
         overflow-y: hidden;
