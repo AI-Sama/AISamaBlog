@@ -8,15 +8,16 @@
 <script src="/js/main.js"></script>
 <script src="/js/indexSakula.js"></script>
 <head>
+    <meta name="referrer" content="no-referrer"/>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
 <div id="app">
-    <index-head :search="search" @indexback="indexback" @links="links" @searchblog="searchblog"></index-head>
+    <index-head :search="search" :half="half" @indexback="indexback" @links="links" @searchblog="searchblog"></index-head>
     <div :class="{widthCateHalf:half,widthCate:!half}">
-        <div>
-            <el-carousel :interval="3000" :type="half?'card':''" :height="half?'250px':'400px'" trigger="click">
+        <div style="margin: 1rem;margin-top: 2rem;">
+            <el-carousel :interval="3000" :type="half?'card':''" :height="half?'250px':'500px'" trigger="click">
                 <el-carousel-item v-for="item in 6" :key="item" style="text-align: center">
                     <img class="title_img" :src="src+item" style="width:100%;min-height: 100%">
                     <h3 class="medium">{{ item }}</h3>
@@ -106,7 +107,7 @@
         >
         </el-pagination>
     </div>
-    <el-backtop class=".page-component__scroll .el-scrollbar__wrap" :bottom="50">
+    <el-backtop class=".page-component__scroll .el-scrollbar__wrap" :bottom="150">
         <div style="{
         height: 100%;
         width: 100%;
@@ -250,7 +251,16 @@
     .card:hover {
         cursor: pointer;
     }
-
+    .el-carousel__arrow{
+        width: 3rem;
+        height:3rem;
+    }
+    .el-icon-arrow-left{
+        font-size: 3rem;
+    }
+    .el-icon-arrow-right{
+        font-size: 3rem;
+    }
 
     .fenleiCard {
         height: 15rem;

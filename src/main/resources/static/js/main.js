@@ -1,6 +1,7 @@
 Vue.component('index-head', {
     props:{
-        search:String
+        search:String,
+        half:Boolean
     },
     methods:{
         indexBack:function () {
@@ -16,7 +17,7 @@ Vue.component('index-head', {
     template: '<div class="index_head">\n' +
         '        <div style="float: left;height: 4rem;width: 25%">\n' +
         '            <img style="height: 4rem" src="/img/aisama.png"/>\n' +
-        '        </div>\n' +'<div class="index_head_center">'+
+        '        </div>\n' +'<div :class="{index_head_center:half,index_head_center_m:!half}">'+
         '        <div class="index-button" @click="indexBack"><i class="el-icon-s-home"></i>&nbsp;首页&nbsp;&nbsp;</div>\n' +
         '        <div class="links-button" @click="links"><i class="el-icon-share"></i>&nbsp;友链</div>\n' +
         '        <div v-if="search !=\'false\'" class="search-button" >\n' +
