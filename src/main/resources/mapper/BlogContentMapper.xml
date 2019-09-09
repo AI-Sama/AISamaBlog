@@ -29,10 +29,10 @@
         from blog_content
         <where>
             <if test="blogTitle!=null">
-                and blog_title like %${blogTitle}%
+                and blog_title like '%${blogTitle}%'
             </if>
             <if test="blogLabel!=null">
-                and blog_label like %${blogLabel}%
+                and blog_label like '%${blogLabel}%'
             </if>
         </where>
         order by id desc

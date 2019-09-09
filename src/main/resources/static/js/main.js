@@ -11,7 +11,7 @@ Vue.component('index-head', {
             this.$emit('links');
         },
         searchblog:function () {
-            this.$emit('searchblog');
+            this.$emit('searchblog',this.search);
         }
     },
     template: '<div class="index_head">\n' +

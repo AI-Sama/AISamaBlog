@@ -53,6 +53,7 @@ public class BlogContentController {
     @ApiOperation("查找所有博客")
     @PostMapping(value = "/selectBlogList", produces = {"application/json;charset=utf-8"})
     public ResultBean selectBlogList(@RequestBody PageValue pageValue) {
+        log.info(pageValue.toString());
         PageInfo listPageInfo = blogContentService.selectBlogList(pageValue);
         return new ResultBean(listPageInfo);
     }

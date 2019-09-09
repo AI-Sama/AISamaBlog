@@ -181,14 +181,30 @@
             links: function () {
                 window.location.href = "/links.html";
             },
-            searchblog: function () {
-                alert("该功能尚未完成")
+            searchblog: function (searchStr) {
+                this.search=searchStr;
+                this.loadBlog();
             },
             loadBlog: function () {
                 this.title_msgs = [];
+                let var1='';
+                let titleStr='';
+                let labelStr='';
+                if(this.half){
+                    var1=this.search;
+                }else{
+                    var1=this.search_m;
+                }
+                if(var1.indexOf("#")<0){
+                    titleStr=var1;
+                }else{
+                    labelStr=var1;
+                }
                 axios.post("/BlogContentController/selectBlogList", {
                     pageNum: this.pageNum,
                     pageSize: 5,
+                    var1:titleStr,
+                    var2:labelStr
                 }).then((res) => {
                     var resData = res.data.resultData;
                     for (var x = 0; x < resData.list.length; x++) {
