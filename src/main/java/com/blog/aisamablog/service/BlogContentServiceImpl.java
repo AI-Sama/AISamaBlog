@@ -43,7 +43,7 @@ public class BlogContentServiceImpl implements BlogContentService {
     @Override
     public PageInfo<List<BlogContent>> selectBlogList(PageValue pageValue) {
         PageHelper.startPage(pageValue.getPageNum(), pageValue.getPageSize());
-        List<BlogContent> blogContentList = blogContentMapper.selectBlogContentList();
+        List<BlogContent> blogContentList = blogContentMapper.selectBlogContentList(pageValue.getVar1(),pageValue.getVar2());
         PageInfo pageInfo = new PageInfo(blogContentList);
         return pageInfo;
     }

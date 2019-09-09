@@ -28,4 +28,25 @@ public class PageValue {
     private String var2;
     @ApiModelProperty("扩展参数3")
     private String var3;
+
+    public void setVar1(String var1) {
+        if(var1!=null&&var1.trim().length()<=0){
+            var1=null;
+        }
+        this.var1 = var1;
+    }
+
+    public void setVar2(String var2) {
+        if(var2!=null&&var2.trim().length()<=0){
+            var2=null;
+        }
+        this.var2 = var2;
+    }
+
+    public void setVar3(String var3) {
+        if(var3!=null&&var3.trim().length()<=0){
+            var3=null;
+        }
+        this.var3 = var3;
+    }
 }

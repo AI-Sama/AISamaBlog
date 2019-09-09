@@ -1,6 +1,7 @@
 package com.blog.aisamablog.mapper;
 
 import com.blog.aisamablog.model.BlogContent;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.List;
 public interface BlogContentMapper {
     int deleteByPrimaryKey(Integer id);
 
-    List<BlogContent> selectBlogContentList();
+    List<BlogContent> selectBlogContentList(@Param("blogTitle") String blogTitle, @Param("blogLabel")String blogLabel);
 
     List<String> selectBlogCategory();
 

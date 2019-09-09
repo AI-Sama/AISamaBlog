@@ -16,18 +16,26 @@
     </resultMap>
     <sql id="Base_Column_List">
     id, gmt_create, gmt_modified, blog_title, blog_label, blog_look_amount, blog_like_amount,blog_bewrite
-  </sql>
+    </sql>
     <sql id="Blob_Column_List">
     blog_text
-  </sql>
+    </sql>
     <select id="selectBlogCategory" resultType="java.lang.String">
       select distinct  blog_label from blog_content
     </select>
-    <select id="selectBlogContentList" resultMap="ResultMapWithBLOBs">
+    <select id="selectBlogContentList" resultMap="BaseResultMap" parameterType="java.lang.String">
         select
         <include refid="Base_Column_List"/>
         from blog_content
-        order by gmt_create desc
+        <where>
+            <if test="blogTitle!=null">
+                and blog_title like %${blogTitle}%
+            </if>
+            <if test="blogLabel!=null">
+                and blog_label like %${blogLabel}%
+            </if>
+        </where>
+        order by id desc
     </select>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
         select
