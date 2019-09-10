@@ -4,6 +4,7 @@ import com.blog.aisamablog.model.BlogContent;
 import com.blog.aisamablog.model.PageValue;
 import com.blog.aisamablog.model.ResultBean;
 import com.blog.aisamablog.service.BlogContentServiceImpl;
+import com.blog.aisamablog.utils.Tools;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -11,8 +12,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -29,6 +36,8 @@ public class BlogContentController {
     @Autowired
     BlogContentServiceImpl blogContentService;
 
+    @Value("${img.path}")
+    String path;
     @ApiOperation("添加一条博客")
     @PostMapping(value = "/insertBlog", produces = {"application/json;charset=utf-8"})
     public ResultBean insertBlog(@RequestBody BlogContent blogContent) {
@@ -70,5 +79,21 @@ public class BlogContentController {
     public ResultBean<List<String>> selectBlogCategory() {
         List<String> blogCategorys = blogContentService.selectBlogCategory();
         return new ResultBean(blogCategorys);
+    }
+
+    @ApiOperation("上传图片")
+    @PostMapping(value = "/upImg", produces = {"application/json;charset=utf-8"})
+    public ResultBean upImg(HttpServletRequest httpServletRequest)throws Exception{
+        MultipartHttpServletRequest multipartHttpServletRequest=(MultipartHttpServletRequest) httpServletRequest;
+        Iterator<String> names = multipartHttpServletRequest.getFileNames();
+        String fileName = "";
+        String imgName= Tools.getNonceStr()+".jpg";
+        while(names.hasNext()){
+            fileName=names.next();
+            MultipartFile multipartFile=multipartHttpServletRequest.getFile(fileName);
+            File file=new File(path+imgName);
+            multipartFile.transferTo(file);
+        }
+        return new ResultBean(path+imgName);
     }
 }
