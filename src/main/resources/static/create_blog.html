@@ -26,7 +26,6 @@
                       show-word-limit>
             </el-input>
         </div>
-        <div id="editor_title"></div>
         <div id="editor_body"></div>
         <div class="create_button">
             <el-button @click="createBlog" type="primary"><i class="el-icon-check"></i>&nbsp;创建</el-button>
@@ -81,7 +80,7 @@
                     return
                 }
                 var bewrite = editor.txt.text();
-                bewrite = bewrite.replace(/&nbsp;/g, '').trim().slice(0, 10);
+                bewrite = bewrite.replace(/&nbsp;/g, '').trim().slice(0, 100);
                 axios.post("/BlogContentController/insertBlog", {
                     blogTitle: this.blogTitle,
                     blogLabel: this.blogLabel,
@@ -100,7 +99,7 @@
         }
     })
     var E = window.wangEditor
-    var editor = new E('#editor_title', '#editor_body')
+    var editor = new E( '#editor_body')
     editor.customConfig.zIndex = 10
     // 或者 var editor = new E( document.getElementById('editor') )
     editor.create()
@@ -125,15 +124,8 @@
         text-align: center;
         margin-top: 15px;
     }
-
-    #editor_title {
-        border: 1px solid #ccc;
-    }
-
     #editor_body {
         background-color: white;
-        border: 1px solid #ccc;
-        height: 700px;
     }
 </style>
 </html>
