@@ -32,7 +32,7 @@
                 and blog_title like '%${blogTitle}%'
             </if>
             <if test="blogLabel!=null">
-                and blog_label like '%${blogLabel}%'
+                and blog_label = #{blogLabel}
             </if>
         </where>
         order by id desc

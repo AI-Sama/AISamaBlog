@@ -58,8 +58,8 @@
         },
         created:function(){
             screenWidth = document.body.clientWidth;
+            var html = document.getElementsByTagName("html")[0]
             if (screenWidth <= 1080) {
-                var html = document.getElementsByTagName("html")[0]
                 html.style.fontSize=screenWidth/32+'px';
                 this.half = false;
             }

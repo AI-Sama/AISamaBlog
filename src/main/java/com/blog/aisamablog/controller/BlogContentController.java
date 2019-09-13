@@ -38,6 +38,8 @@ public class BlogContentController {
 
     @Value("${img.path}")
     String path;
+    @Value("${blog.href}")
+    String href;
     @ApiOperation("添加一条博客")
     @PostMapping(value = "/insertBlog", produces = {"application/json;charset=utf-8"})
     public ResultBean insertBlog(@RequestBody BlogContent blogContent) {
@@ -93,7 +95,8 @@ public class BlogContentController {
             MultipartFile multipartFile=multipartHttpServletRequest.getFile(fileName);
             File file=new File(path+imgName);
             multipartFile.transferTo(file);
+            log.info(path+imgName);
         }
-        return new ResultBean(path+imgName);
+        return new ResultBean(href+"blogImg/"+imgName);
     }
 }

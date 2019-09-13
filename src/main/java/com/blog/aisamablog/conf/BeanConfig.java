@@ -12,8 +12,4 @@ import org.springframework.context.annotation.Configuration;
  **/
 @Configuration
 public class BeanConfig {
-    @Bean
-    public Logger getLogger(){
-        return LoggerFactory.getLogger(this.getClass());
-    }
 }

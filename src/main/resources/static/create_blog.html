@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="font-size: 18px;background-color: white">
 <head>
     <meta name="referrer" content="no-referrer"/>
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
@@ -9,12 +9,13 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="/js/main.js"></script>
     <link rel="stylesheet" href="/css/main.css">
+    <script src='/tinymce/js/tinymce/tinymce.js'></script>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
 <div id="app">
-    <index-head :half="half" :search="search" @indexback="indexback"></index-head>
+    <!--<index-head :half="half" :search="search" @indexback="indexback"></index-head>-->
     <div class="create_blog_body">
         <div class="create_blog_title">
             <el-input placeholder="请输入标题" v-model="blogTitle" maxlength="20"
@@ -26,7 +27,8 @@
                       show-word-limit>
             </el-input>
         </div>
-        <div id="editor_body"></div>
+        <!--<div id="editor_body"></div>-->
+        <textarea id="mytextarea" name="mytextarea">Hello, World!</textarea>
         <div class="create_button">
             <el-button @click="createBlog" type="primary"><i class="el-icon-check"></i>&nbsp;创建</el-button>
         </div>
@@ -34,6 +36,18 @@
 </div>
 </body>
 <script>
+    tinymce.init({
+        selector: '#mytextarea',
+        language_url: `/tinymce/js/tinymce/langs/zh_CN.js`,
+        language: 'zh_CN',
+        height: 600,//编辑器高度
+        branding: false,//是否禁用“Powered by TinyMCE”
+        menubar: 'file edit insert view format table',
+        menu: {
+            file: {title: 'file', items: 'newdocument'},
+        }
+        // toolbar:false,
+    });
     new Vue({
         el: '#app',
         data: {
@@ -79,53 +93,42 @@
                     alert("标签不能为空")
                     return
                 }
-                var bewrite = editor.txt.text();
-                bewrite = bewrite.replace(/&nbsp;/g, '').trim().slice(0, 100);
+                let htmlStr = $("#summernote").summernote("code");
+                let textStr = $(htmlStr).text().trim().slice(0, 100);
                 axios.post("/BlogContentController/insertBlog", {
                     blogTitle: this.blogTitle,
                     blogLabel: this.blogLabel,
-                    blogText: editor.txt.html(),
-                    blogBeWrite: bewrite
+                    blogText: htmlStr,
+                    blogBeWrite: textStr
                 }).then((res) => {
                     alert(res.data.resultMsg)
                 })
-                    .catch(() => {
-                        alert("未知错误")
-                    });
+                .catch(() => {
+                    alert("未知错误")
+                });
                 this.blogTitle = "";
                 this.blogLabel = "";
-                editor.txt.html("");
+                $('#summernote').summernote('code','');
             }
         }
     })
-    var E = window.wangEditor
-    var editor = new E( '#editor_body')
-    editor.customConfig.zIndex = 10
-    // 或者 var editor = new E( document.getElementById('editor') )
-    editor.create()
 </script>
 <style>
     .create_blog_body {
         width: 50%;
         margin: auto;
-        margin-top: 100px;
+        margin-top: 2rem;
     }
-
     .create_blog_title {
         margin-bottom: 20px;
     }
-
     .create_blog_label {
         margin-bottom: 20px;
     }
-
     .create_button {
         width: 100%;
         text-align: center;
         margin-top: 15px;
-    }
-    #editor_body {
-        background-color: white;
     }
 </style>
 </html>
