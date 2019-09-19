@@ -33,6 +33,6 @@ public class BlogContent {
     private Integer blogLikeAmount;
     @ApiModelProperty("博客内容")
     private String blogText;
-    @ApiModelProperty("博客简述")
-    private String blogBeWrite;
+    @ApiModelProperty("博客html文件链接")
+    private String blogHtmlUrl;
 }

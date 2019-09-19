@@ -7,7 +7,7 @@
         <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified"/>
         <result column="blog_title" jdbcType="VARCHAR" property="blogTitle"/>
         <result column="blog_label" jdbcType="VARCHAR" property="blogLabel"/>
-        <result column="blog_bewrite" jdbcType="VARCHAR" property="blogBeWrite"/>
+        <result column="blog_html_url" jdbcType="VARCHAR" property="blogHtmlUrl"/>
         <result column="blog_look_amount" jdbcType="INTEGER" property="blogLookAmount"/>
         <result column="blog_like_amount" jdbcType="INTEGER" property="blogLikeAmount"/>
     </resultMap>
@@ -15,7 +15,7 @@
         <result column="blog_text" jdbcType="LONGVARCHAR" property="blogText"/>
     </resultMap>
     <sql id="Base_Column_List">
-    id, gmt_create, gmt_modified, blog_title, blog_label, blog_look_amount, blog_like_amount,blog_bewrite
+    id, gmt_create, gmt_modified, blog_title, blog_label, blog_look_amount, blog_like_amount,blog_html_url
     </sql>
     <sql id="Blob_Column_List">
     blog_text
@@ -23,9 +23,10 @@
     <select id="selectBlogCategory" resultType="java.lang.String">
       select distinct  blog_label from blog_content
     </select>
-    <select id="selectBlogContentList" resultMap="BaseResultMap" parameterType="java.lang.String">
+    <select id="selectBlogContentList" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String">
         select
-        <include refid="Base_Column_List"/>
+        <include refid="Base_Column_List"/>,
+        <include refid="Blob_Column_List"/>
         from blog_content
         <where>
             <if test="blogTitle!=null">
@@ -76,8 +77,8 @@
             <if test="blogText != null">
                 blog_text,
             </if>
-            <if test="blogBeWrite != null">
-                blog_bewrite,
+            <if test="blogHtmlUrl != null">
+                blog_html_url,
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -105,8 +106,8 @@
             <if test="blogText != null">
                 #{blogText,jdbcType=LONGVARCHAR},
             </if>
-            <if test="blogBeWrite != null">
-                #{blogBeWrite,jdbcType=VARCHAR},
+            <if test="blogHtmlUrl != null">
+                #{blogHtmlUrl,jdbcType=VARCHAR},
             </if>
         </trim>
     </insert>
@@ -134,8 +135,8 @@
             <if test="blogText != null">
                 blog_text = #{blogText,jdbcType=LONGVARCHAR},
             </if>
-            <if test="blogBeWrite != null">
-                blog_bewrite = #{blogBeWrite,jdbcType=VARCHAR},
+            <if test="blogHtmlUrl != null">
+                blog_html_url = #{blogHtmlUrl,jdbcType=VARCHAR},
             </if>
         </set>
         where id = #{id,jdbcType=INTEGER}

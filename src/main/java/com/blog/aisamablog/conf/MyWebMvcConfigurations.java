@@ -23,7 +23,7 @@ public class MyWebMvcConfigurations implements WebMvcConfigurer {
     }
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/blogImg/**").addResourceLocations("file:"+path);
+        registry.addResourceHandler("/blogFile/**").addResourceLocations("file:"+path);
     }
     //    @Override
 //    protected void addResourceHandlers(ResourceHandlerRegistry registry) {

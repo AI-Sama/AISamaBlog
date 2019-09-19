@@ -64,8 +64,9 @@ public class BlogContentController {
     @ApiOperation("查找所有博客")
     @PostMapping(value = "/selectBlogList", produces = {"application/json;charset=utf-8"})
     public ResultBean selectBlogList(@RequestBody PageValue pageValue) {
-        log.info(pageValue.toString());
+        log.debug(pageValue.toString());
         PageInfo listPageInfo = blogContentService.selectBlogList(pageValue);
+        log.info(listPageInfo.toString());
         return new ResultBean(listPageInfo);
     }
 
@@ -83,20 +84,27 @@ public class BlogContentController {
         return new ResultBean(blogCategorys);
     }
 
-    @ApiOperation("上传图片")
+    @ApiOperation("上传图片或文件")
     @PostMapping(value = "/upImg", produces = {"application/json;charset=utf-8"})
     public ResultBean upImg(HttpServletRequest httpServletRequest)throws Exception{
         MultipartHttpServletRequest multipartHttpServletRequest=(MultipartHttpServletRequest) httpServletRequest;
         Iterator<String> names = multipartHttpServletRequest.getFileNames();
-        String fileName = "";
-        String imgName= Tools.getNonceStr()+".jpg";
+        String fileName="";
+        String imgName="";
         while(names.hasNext()){
             fileName=names.next();
             MultipartFile multipartFile=multipartHttpServletRequest.getFile(fileName);
-            File file=new File(path+imgName);
+            File file;
+            if(multipartFile.getOriginalFilename().endsWith("htm")||multipartFile.getOriginalFilename().endsWith("html")){
+                imgName= "blogHtml/"+Tools.getNonceStr()+".html";
+                file=new File(path+imgName);
+            }else{
+                imgName= "blogImg/"+Tools.getNonceStr()+".jpg";
+                file=new File(path+imgName);
+            }
             multipartFile.transferTo(file);
-            log.info(path+imgName);
         }
-        return new ResultBean(href+"blogImg/"+imgName);
+        log.info(path+imgName);
+        return new ResultBean("/blogFile/"+imgName);
     }
 }
