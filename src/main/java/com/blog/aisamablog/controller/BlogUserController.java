@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 
 /**
  * @program: aisamablog
@@ -56,5 +59,18 @@ public class BlogUserController {
     public ResultBean selectUserList(@RequestBody PageValue pageValue) {
         PageInfo listPageInfo = blogUserService.selectBlogUserList(pageValue);
         return new ResultBean(listPageInfo);
+    }
+
+    @ApiOperation("账号登录")
+    @PostMapping(value = "/login", produces = {"application/json;charset=utf-8"})
+    public ResultBean login(@RequestBody BlogUser blogUser, HttpServletRequest httpServletRequest) {
+        HttpSession httpSession = httpServletRequest.getSession();
+        BlogUser user = blogUserService.checkUser(blogUser);
+        if (user == null) {
+            return new ResultBean(1, "账号不存在或密码错误");
+        } else {
+            httpSession.setAttribute("user", user);
+            return new ResultBean(0,"登录成功");
+        }
     }
 }

@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @program: aisamablog
@@ -46,5 +47,15 @@ public class BlogUserServiceImpl implements BlogUserService {
         List<BlogUser> blogUserList = blogUserMapper.selectBlogUserList();
         PageInfo pageInfo = new PageInfo(blogUserList);
         return pageInfo;
+    }
+
+    @Override
+    public BlogUser checkUser(BlogUser blogUser) {
+        BlogUser selectUser= Optional.ofNullable(blogUserMapper.selectUserByNickName(blogUser)).orElse(new BlogUser());
+        if(blogUser.getUserPass().equals(selectUser.getUserPass())){
+            return selectUser;
+        }else{
+            return null;
+        }
     }
 }

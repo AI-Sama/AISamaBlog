@@ -13,7 +13,14 @@
     </resultMap>
     <sql id="Base_Column_List">
     id, gmt_create, gmt_modified, user_name, user_pass, user_mail, user_head_img, user_type
-  </sql>
+    </sql>
+    <select id="selectUserByNickName" parameterType="com.blog.aisamablog.model.BlogUser" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from blog_user
+        where user_name=#{userName}
+        limit 1
+    </select>
     <select id="selectBlogUserList" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>

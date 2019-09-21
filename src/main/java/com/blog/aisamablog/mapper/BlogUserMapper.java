@@ -7,6 +7,8 @@ import java.util.List;
 
 @Repository
 public interface BlogUserMapper {
+    BlogUser selectUserByNickName(BlogUser blogUser);
+
     int deleteByPrimaryKey(Integer id);
 
     int insert(BlogUser record);

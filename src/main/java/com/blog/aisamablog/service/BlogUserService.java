@@ -14,4 +14,6 @@ public interface BlogUserService {
     void updateUser(BlogUser blogUser);
 
     PageInfo<List<BlogUser>> selectBlogUserList(PageValue pageValue);
+
+    BlogUser checkUser(BlogUser blogUser);
 }
