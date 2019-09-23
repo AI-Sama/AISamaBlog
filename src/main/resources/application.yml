@@ -1,5 +1,7 @@
 server:
-  port: 7777
+  port: 80
+#  servlet:
+#    context-path: /blog/ 添加统一前缀
 spring:
   datasource:
     username: root

@@ -51,7 +51,7 @@ public class BlogContentController {
     @PostMapping(value = "/deleteBlog", produces = {"application/json;charset=utf-8"})
     public ResultBean deleteBlog(@RequestBody BlogContent blogContent) {
         blogContentService.deleteBlog(blogContent);
-        return new ResultBean();
+        return new ResultBean(0,"删除成功");
     }
 
     @ApiOperation("更新一条博客")
@@ -105,6 +105,6 @@ public class BlogContentController {
             multipartFile.transferTo(file);
         }
         log.info(path+imgName);
-        return new ResultBean("/blogFile/"+imgName);
+        return new ResultBean(href+"blogFile/"+imgName);
     }
 }
