@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.DispatcherServlet;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
@@ -46,6 +47,7 @@ public class BlogContentController {
         blogContentService.insertBlog(blogContent);
         return new ResultBean();
     }
+
 
     @ApiOperation("删除一条博客")
     @PostMapping(value = "/deleteBlog", produces = {"application/json;charset=utf-8"})
